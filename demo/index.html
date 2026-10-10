@@ -24,7 +24,7 @@
 <footer><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/sms/">SMS &amp; opt-out</a><br><br>Lucalla is operated by FN Developments LLC, 2121 1st Ave N, Ste N, Birmingham, AL 35203. Not a clinic or an emergency service.</footer>
 <script>
 let API = "https://lucalla.com";
-const BASES = ["https://lucalla.com", "https://api.lucalla.com"];
+const BASES = ["https://lucalla.com", "https://api.lucalla.com", "https://voice.lucalla.com"];
 const $ = (id) => document.getElementById(id);
 let ws, ctx, stream, nextT = 0, srcs = [], tick;
 function say(t){ $("status").textContent = t; }
