@@ -46,16 +46,18 @@ function flush(){ srcs.forEach(s=>{try{s.stop()}catch{}}); srcs=[]; nextT = ctx 
 $("go").onclick = async () => {
   const url = $("site").value.trim(); if(!url){ say("Enter your website first."); return; }
   $("go").disabled = true; say("Reading your website...");
-  let r, lastErr;
+  let r, diag = [];
   for(const b of BASES){
+    const h = b.replace("https://","");
     try{
-      const x = await fetch(b + "/session", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({url})});
-      if(x.status===404 || x.status===405){ r = x; continue; }
-      r = x; API = b; break;
-    }catch(err){ lastErr = err; }
+      const x = await fetch(b + "/session", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({url}), cache:"no-store"});
+      if(x.ok || x.status===429 || x.status===400 || x.status===403 || x.status===502 || x.status===503){ r = x; API = b; break; }
+      let sv = ""; try{ sv = x.headers.get("server") || ""; }catch{}
+      diag.push(h + " " + x.status + (sv ? " " + sv : ""));
+    }catch(err){ diag.push(h + " " + (err && err.name ? err.name : "network")); }
   }
-  if(!r) return stop("Could not reach the demo service from your browser (" + (lastErr && lastErr.name ? lastErr.name : "network") + "). Check your connection, turn off content blockers or Private Relay for this page, and try again.");
-  let d; try{ d = await r.json(); }catch{ return stop("The demo service returned an unexpected answer (status " + r.status + "). Please try again in a minute."); }
+  if(!r) return stop("Could not start the demo from this connection. Please try another network or the free trial. Details: " + diag.join("; ") + ".");
+  let d; try{ d = await r.json(); }catch{ return stop("The demo service returned an unexpected answer (status " + r.status + " from " + API.replace("https://","") + "). Please try again in a minute."); }
   if(!r.ok) return stop(d.message || "The demo is unavailable right now. Start the free trial instead.");
   try{ stream = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,channelCount:1}}); }
   catch{ return stop("Microphone access is needed for the demo."); }
