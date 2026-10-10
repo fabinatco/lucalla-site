@@ -11,13 +11,13 @@
 </div>
 <div class="stage" aria-hidden="true"><div class="glow"></div>
 <div class="phone"><div class="screen">
-<div class="ctop"><div class="ava"><img src="/images/icon-dark.svg" alt=""></div><div><b>Lucalla</b><span>&#9679; On a call &middot; example</span></div></div>
+<div class="ctop"><div class="ava"><img src="/images/icon-dark.svg" alt=""></div><div><b>Lucalla</b><span>&#9679; Example call &middot; <em id="lbl">Dental</em></span></div></div>
 <div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-<div class="b c seq">Hi, are you open Saturday? I need a cleaning.</div>
-<div class="b l seq">We're open Saturday 9 to 1. I can take a request for a cleaning. What time works best?</div>
-<div class="b c seq">Around 10 if possible.</div>
-<div class="b l seq">Got it. Can I have your name and number?</div>
-<div class="req seq"><b>APPOINTMENT REQUEST</b>Cleaning &middot; Sat, 10:00 am<br>Name and number captured</div>
+<div id="conv"><div class="b c">Hi, are you open Saturday? I need a cleaning.</div>
+<div class="b l">We're open Saturday 9 to 1. I can take a request for a cleaning. What time works best?</div>
+<div class="b c">Around 10 if possible.</div>
+<div class="b l">Got it. Can I have your name and number?</div>
+<div class="req"><b>APPOINTMENT REQUEST</b>Cleaning &middot; Sat, 10:00 am<br>Name and number captured</div></div><div class="dots" id="dots"><i></i><i></i><i></i></div>
 </div></div>
 <div class="float a"><b>&#10003; Request taken</b><br>while the front desk was busy</div>
 <div class="float b2">&#9742; Answered in 1 ring</div>
@@ -79,7 +79,11 @@
 <footer><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/sms/">SMS &amp; opt-out</a><br><br>Lucalla is operated by FN Developments LLC, 2121 1st Ave N, Ste N, Birmingham, AL 35203. Not a clinic or an emergency service. The call screen above is an example. Photos: Pexels stock images, not customers.</footer>
 <script>
 (function(){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});document.querySelectorAll('.reveal').forEach(function(el,i){el.style.transitionDelay=(i%3)*90+'ms';io.observe(el)});
-var q=[].slice.call(document.querySelectorAll('.seq'));function run(){q.forEach(function(el){el.classList.remove('show')});q.forEach(function(el,i){setTimeout(function(){el.classList.add('show')},700+i*1300)});setTimeout(run,700+q.length*1300+4500)}if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){run()}else{q.forEach(function(el){el.classList.add('show')})}
+var S=[{l:'Dental',m:[['c','Hi, are you open Saturday? I need a cleaning.'],['l',"We're open Saturday 9 to 1. I can take a request for a cleaning. What time works best?"],['c','Around 10 if possible.'],['l','Got it. Can I have your name and number?'],['r','Cleaning &middot; Sat, 10:00 am<br>Name and number captured']]},{l:'Vet',m:[['c',"My dog has been limping since last night. Can I get in today?"],['l',"I'm sorry to hear that. I can take a request for a same-day visit. Is it an emergency, like heavy bleeding or trouble breathing?"],['c','No, he is walking, just favoring one leg.'],['l','Thanks. What is your name, your dog\'s name and the best number?'],['r','Limping dog &middot; Same-day request<br>Marked for the team to call back']]},{l:'Med spa',m:[['c','Do you offer Botox, and how much is a consultation?'],['l','Yes, Botox is on our services page. For pricing, the team confirms it at a consultation. Want me to request one?'],['c','Yes, Thursday afternoon.'],['l','Great. Can I have your name and number?'],['r','Consultation &middot; Thu afternoon<br>Name and number captured']]}];
+var conv=document.getElementById('conv'),lbl=document.getElementById('lbl'),dots=[].slice.call(document.querySelectorAll('#dots i')),si=0;
+function render(n){var s=S[n];lbl.textContent=s.l;dots.forEach(function(d,i){d.className=i===n?'on':''});conv.innerHTML='';return s.m.map(function(x){var e=document.createElement('div');if(x[0]==='r'){e.className='req seq';e.innerHTML='<b>APPOINTMENT REQUEST</b>'+x[1]}else{e.className='b '+x[0]+' seq';e.innerHTML=x[1]}conv.appendChild(e);return e})}
+function play(){var els=render(si);els.forEach(function(el,i){setTimeout(function(){el.classList.add('show')},(i===0?60:700+i*1500))});var total=700+els.length*1500+3200;setTimeout(function(){conv.classList.add('out')},total-500);setTimeout(function(){conv.classList.remove('out');si=(si+1)%S.length;play()},total)}
+if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){play()}else{dots.forEach(function(d,i){d.className=i===0?'on':''})}
 var c=document.getElementById('calls');function upd(){var n=+c.value,m=n*3,r=document.getElementById('rec');document.getElementById('ncalls').textContent=n;document.getElementById('nmin').textContent=m;var t;if(m<=150)t='Starter fits: $149/month';else if(m<=400)t='Practice fits: $349/month';else{var ex=m-400;t='Practice + '+ex+' extra min: $'+(349+ex).toFixed(0)+'/month'}r.textContent=t}c.addEventListener('input',upd);upd();
 document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(){if(a.getAttribute('href')==='#trial'){setTimeout(function(){var i=document.getElementById('site');i&&i.focus({preventScroll:true})},500)}})});})();
 </script>
