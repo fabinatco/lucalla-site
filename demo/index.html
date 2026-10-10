@@ -47,8 +47,8 @@ $("go").onclick = async () => {
   $("go").disabled = true; say("Reading your website...");
   let r; try{
     r = await fetch(API + "/session", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({url})});
-  }catch{ return stop("Could not reach the demo. Try again or start the free trial."); }
-  const d = await r.json();
+  }catch(err){ return stop("Could not reach the demo service from your browser (" + (err && err.name ? err.name : "network") + "). Check your connection, turn off content blockers or Private Relay for this page, and try again."); }
+  let d; try{ d = await r.json(); }catch{ return stop("The demo service returned an unexpected answer (status " + r.status + "). Please try again in a minute."); }
   if(!r.ok) return stop(d.message || "The demo is unavailable right now. Start the free trial instead.");
   try{ stream = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,channelCount:1}}); }
   catch{ return stop("Microphone access is needed for the demo."); }
