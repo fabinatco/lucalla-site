@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Talk to a Lucalla receptionist that knows your business</title>
+<link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/landing.css">
+<style>
+.demo{max-width:620px;margin:56px auto;padding:0 20px;text-align:center}
+.demo input{width:100%;padding:14px;border:1px solid #cdd5e3;border-radius:10px;font-size:16px;margin:8px 0}
+.demo button{background:#f59e4b;color:#10203f;border:0;border-radius:12px;padding:14px 26px;font-size:17px;font-weight:700;cursor:pointer}
+.demo button:disabled{opacity:.5}
+#status{margin:16px 0;min-height:24px;color:#41506b}
+.timer{font-variant-numeric:tabular-nums;font-weight:700;color:#10203f}
+.note{font-size:13px;color:#6b7891;margin-top:18px}
+</style></head><body class="lp"><header><a href="/" aria-label="Lucalla home"><img src="/images/logo-light.svg" alt="Lucalla"></a><nav aria-label="Main"><a class="x" href="/#how">How it works</a><a class="x" href="/#pricing">Pricing</a><a class="x" href="/#faq">FAQ</a><a class="btn" href="/#trial">Start free trial</a></nav></header>
+<div class="demo">
+<h1>Talk to a receptionist that already knows your business</h1>
+<p>Enter your website. We read it, then you can speak with an AI receptionist for up to 3 minutes. Allow your microphone when asked.</p>
+<input id="site" placeholder="yourpractice.com" autocomplete="url" inputmode="url">
+<button id="go">Start the demo call</button>
+<div id="status"></div>
+<div class="timer" id="timer"></div>
+<p class="note">Demo only. It answers from your public website and does not book anything. Do not say patient information. Your voice is processed live by our speech and AI providers (Deepgram and its language-model partners) and is not recorded or stored by us. See the <a href="/privacy/">Privacy Policy</a>.</p>
+<p><a class="btn" href="/#trial">Start free trial</a></p>
+</div>
+<footer><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/sms/">SMS &amp; opt-out</a><br><br>Lucalla is operated by FN Developments LLC, 2121 1st Ave N, Ste N, Birmingham, AL 35203. Not a clinic or an emergency service.</footer>
+<script>
+const API = "https://api.lucalla.com";
+const $ = (id) => document.getElementById(id);
+let ws, ctx, stream, nextT = 0, srcs = [], tick;
+function say(t){ $("status").textContent = t; }
+function stop(msg){
+  clearInterval(tick); try{ ws && ws.close(); }catch{}
+  try{ stream && stream.getTracks().forEach(t=>t.stop()); }catch{}
+  try{ ctx && ctx.close(); }catch{}
+  $("go").disabled = false; $("timer").textContent = ""; if(msg) say(msg);
+}
+function play(buf){
+  const i16 = new Int16Array(buf), f = new Float32Array(i16.length);
+  for(let i=0;i<i16.length;i++) f[i]=i16[i]/32768;
+  const ab = ctx.createBuffer(1, f.length, 24000); ab.copyToChannel(f,0);
+  const s = ctx.createBufferSource(); s.buffer = ab; s.connect(ctx.destination);
+  nextT = Math.max(nextT, ctx.currentTime); s.start(nextT); nextT += ab.duration;
+  srcs.push(s); s.onended = () => { srcs = srcs.filter(x=>x!==s); };
+}
+function flush(){ srcs.forEach(s=>{try{s.stop()}catch{}}); srcs=[]; nextT = ctx ? ctx.currentTime : 0; }
+$("go").onclick = async () => {
+  const url = $("site").value.trim(); if(!url){ say("Enter your website first."); return; }
+  $("go").disabled = true; say("Reading your website...");
+  let r; try{
+    r = await fetch(API + "/session", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({url})});
+  }catch{ return stop("Could not reach the demo. Try again or start the free trial."); }
+  const d = await r.json();
+  if(!r.ok) return stop(d.message || "The demo is unavailable right now. Start the free trial instead.");
+  try{ stream = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,channelCount:1}}); }
+  catch{ return stop("Microphone access is needed for the demo."); }
+  ctx = new (window.AudioContext||window.webkitAudioContext)();
+  const src = ctx.createMediaStreamSource(stream);
+  const proc = ctx.createScriptProcessor(4096,1,1);
+  ws = new WebSocket(API.replace("https","wss") + "/ws?t=" + encodeURIComponent(d.token));
+  ws.binaryType = "arraybuffer";
+  const ratio = ctx.sampleRate / 16000;
+  proc.onaudioprocess = (e) => {
+    if(ws.readyState!==1) return;
+    const inp = e.inputBuffer.getChannelData(0), n = Math.floor(inp.length/ratio), out = new Int16Array(n);
+    for(let i=0;i<n;i++){ const s = Math.max(-1,Math.min(1,inp[Math.floor(i*ratio)])); out[i]=s<0?s*32768:s*32767; }
+    ws.send(out.buffer);
+  };
+  src.connect(proc); proc.connect(ctx.destination);
+  ws.onopen = () => { say("Connected to a receptionist for " + d.host + ". Say hello."); let left=d.seconds; $("timer").textContent="3:00";
+    tick=setInterval(()=>{ left--; $("timer").textContent=Math.floor(left/60)+":"+String(left%60).padStart(2,"0"); if(left<=0) stop("Demo finished. Start the free trial to get a number for your business."); },1000); };
+  ws.onmessage = (e) => {
+    if(e.data instanceof ArrayBuffer){ play(e.data); return; }
+    try{ const m = JSON.parse(e.data); if(m.type==="UserStartedSpeaking") flush(); }catch{}
+  };
+  ws.onclose = () => stop("Call ended. Start the free trial to get a number for your business.");
+  ws.onerror = () => stop("The call failed. Try again or start the free trial.");
+};
+</script></body></html>
