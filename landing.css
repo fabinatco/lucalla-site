@@ -77,3 +77,14 @@ details{border-bottom:1px solid var(--line);padding:18px 0}summary{font-weight:7
 .cta{background:linear-gradient(160deg,#10203f,#1d3a6e);color:#fff;text-align:center;padding:76px 5vw}.cta h2{margin:0 0 10px;font-size:clamp(28px,4vw,42px)}.cta p{color:#c9d5ee;margin:0 0 26px}
 .lp footer{padding:34px 5vw;font-size:14px;color:var(--mut);border-top:1px solid var(--line)}.lp footer a{margin-right:16px}
 @media(max-width:900px){.hero .wrap,.pain,.split,.steps,.limits,.plans{grid-template-columns:1fr}.signup .row{grid-template-columns:1fr}.lp nav .x{display:none}.plan.hl{transform:none}.float{display:none}.hero{padding-top:44px}.signup{margin-top:-40px}}
+
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}.reveal.in{opacity:1;transform:none}
+.plan.hl.reveal.in{transform:translateY(-10px)}
+.seq{opacity:0;transform:translateY(8px) scale(.97);transition:.4s}.seq.show{opacity:1;transform:none}
+.step,.plan,.lim,.stat .ic{transition:transform .25s,box-shadow .25s}.step:hover,.plan:not(.hl):hover,.lim:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(20,38,74,.14)}
+.step .vis .mini{animation:fl 3.2s ease-in-out infinite}@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.phone{animation:fl 5s ease-in-out infinite}.float.a{animation:fl 4s ease-in-out infinite}.float.b2{animation:fl 4.6s ease-in-out infinite .6s}
+.est{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px 28px;margin:0 auto 34px;max-width:820px;text-align:left;box-shadow:0 8px 30px rgba(20,38,74,.06)}
+.est h3{margin:0}.est .small2{color:var(--mut);margin:2px 0 14px;font-size:14.5px}.est input[type=range]{width:100%;accent-color:#e58a35}
+.estrow{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:10px;align-items:center}.estrow .rec{background:var(--cream);border-radius:10px;padding:8px 14px;font-weight:700}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.phone,.float,.mini{animation:none!important}}
