@@ -23,7 +23,8 @@
 </div>
 <footer><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/sms/">SMS &amp; opt-out</a><br><br>Lucalla is operated by FN Developments LLC, 2121 1st Ave N, Ste N, Birmingham, AL 35203. Not a clinic or an emergency service.</footer>
 <script>
-const API = location.origin;
+let API = "https://lucalla.com";
+const BASES = ["https://lucalla.com", "https://api.lucalla.com"];
 const $ = (id) => document.getElementById(id);
 let ws, ctx, stream, nextT = 0, srcs = [], tick;
 function say(t){ $("status").textContent = t; }
@@ -45,9 +46,15 @@ function flush(){ srcs.forEach(s=>{try{s.stop()}catch{}}); srcs=[]; nextT = ctx 
 $("go").onclick = async () => {
   const url = $("site").value.trim(); if(!url){ say("Enter your website first."); return; }
   $("go").disabled = true; say("Reading your website...");
-  let r; try{
-    r = await fetch(API + "/session", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({url})});
-  }catch(err){ return stop("Could not reach the demo service from your browser (" + (err && err.name ? err.name : "network") + "). Check your connection, turn off content blockers or Private Relay for this page, and try again."); }
+  let r, lastErr;
+  for(const b of BASES){
+    try{
+      const x = await fetch(b + "/session", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({url})});
+      if(x.status===404 || x.status===405){ r = x; continue; }
+      r = x; API = b; break;
+    }catch(err){ lastErr = err; }
+  }
+  if(!r) return stop("Could not reach the demo service from your browser (" + (lastErr && lastErr.name ? lastErr.name : "network") + "). Check your connection, turn off content blockers or Private Relay for this page, and try again.");
   let d; try{ d = await r.json(); }catch{ return stop("The demo service returned an unexpected answer (status " + r.status + "). Please try again in a minute."); }
   if(!r.ok) return stop(d.message || "The demo is unavailable right now. Start the free trial instead.");
   try{ stream = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,channelCount:1}}); }
