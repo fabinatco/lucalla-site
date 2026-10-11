@@ -29,17 +29,27 @@ button.link{background:none;color:var(--mut);padding:0;margin:0;font-size:14px;f
 <label>Notes for the receptionist</label><textarea id="notes"></textarea></div>
 <div class="card"><h2>Calendar</h2><p>Paste your booking link (Calendly, Cal.com, or similar) and the receptionist will offer it to callers.</p>
 <label>Booking link</label><input id="booking_link" placeholder="https://cal.com/yourname">
-<div class="soon">Google Calendar and Outlook connection: coming soon.</div></div>
-<div class="card"><h2>Plan and billing</h2><p>Your 7-day trial is not started. Billing opens when the trial does.</p><div class="soon">Cancel and manage billing: available once the trial starts.</div></div>
+<div id="calbox"></div></div>
+<div class="card"><h2>Plan and billing</h2><div id="planbox"></div></div>
 <button id="save">Save changes</button><div class="msg" id="sm"></div></div>
 </main>
 <script>
 const API="https://account.lucalla.com";const F=["business_name","website","hours","greeting","after_hours","forwarding_number","notes","booking_link"];
 const $=i=>document.getElementById(i);let S=localStorage.getItem("lc_s");
 const call=async(p,m="GET",b)=>{const r=await fetch(API+p,{method:m,headers:{"Content-Type":"application/json",...(S?{Authorization:"Bearer "+S}:{})},body:b?JSON.stringify(b):undefined});const j=await r.json().catch(()=>({}));return{s:r.status,j}};
+function plan(a){const t=a.trial||"none";let h="";const nm={starter:"Starter, $149/month",practice:"Practice, $349/month"};
+ if(t==="trialing")h='<p>Trial active until '+new Date(a.trial_ends).toLocaleDateString()+' on the '+nm[a.plan]+' plan. You are not charged during the trial. After 7 days we charge the plan you picked, unless you cancel first.</p><p class="small">Test mode: no real card is taken yet.</p><button id="tc" type="button">Cancel trial</button>';
+ else if(t==="canceled")h='<p>Your trial was canceled. Nothing was charged.</p>';
+ else h='<p>7-day trial with a card on file. You are not charged during the trial. After 7 days we charge the plan you choose, unless you cancel first.</p><label>Plan</label><select id="pl"><option value="starter">Starter - $149/month, 150 minutes</option><option value="practice">Practice - $349/month, 400 minutes</option></select><p class="small">Test mode: the card step is simulated and no real card is taken yet.</p><button id="ts" type="button">Start trial</button>';
+ $("planbox").innerHTML=h;
+ if($("ts"))$("ts").onclick=async()=>{const r=await call("/trial/start","POST",{plan:$("pl").value});if(r.s==200)plan(r.j);else alert(r.j.error||"Could not start.")};
+ if($("tc"))$("tc").onclick=async()=>{if(!confirm("Cancel your trial?"))return;const r=await call("/trial/cancel","POST");if(r.s==200)plan(r.j);else alert(r.j.error||"Could not cancel.")};
+ const c=a.calendar&&a.calendar.connected;
+ $("calbox").innerHTML='<p>Or connect Google Calendar (test mode, test users only).</p>'+(c?'<p>Google Calendar connected.</p><button id="cd" type="button">Disconnect</button>':'<a href="'+API+'/gcal/start?s='+encodeURIComponent(S)+'" class="btn" style="display:inline-block;padding:10px 18px;border:1.5px solid var(--line);border-radius:10px;text-decoration:none">Connect Google Calendar</a>');
+ if($("cd"))$("cd").onclick=async()=>{const r=await call("/gcal/disconnect","POST");if(r.s==200)plan(r.j);}}
 function show(a){$("login").classList.toggle("hide",!!a);$("dash").classList.toggle("hide",!a);$("out").classList.toggle("hide",!a);
- if(a){$("who").textContent="Signed in as "+a.email;F.forEach(f=>$(f).value=(a.settings||{})[f]||"")}}
-async function init(){if(/err=google/.test(location.hash)){$("lm").className="msg err";$("lm").textContent=/google_off/.test(location.hash)?"Google sign-in is not available yet.":"Google sign-in failed. Use a test account or the email link."}
+ if(a){plan(a);$("who").textContent="Signed in as "+a.email;F.forEach(f=>$(f).value=(a.settings||{})[f]||"")}}
+async function init(){if(/err=cal/.test(location.hash)){alert("Google Calendar connection failed.")}if(/err=google/.test(location.hash)){$("lm").className="msg err";$("lm").textContent=/google_off/.test(location.hash)?"Google sign-in is not available yet.":"Google sign-in failed. Use a test account or the email link."}
 const m=location.hash.match(/t=([0-9a-f]{48})/);
  if(m){history.replaceState(null,"",location.pathname);const r=await call("/verify","POST",{token:m[1]});
   if(r.s==200){S=r.j.session;localStorage.setItem("lc_s",S)}else{$("lm").className="msg err";$("lm").textContent=r.j.error||"Link failed."}}
