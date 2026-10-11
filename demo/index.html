@@ -13,7 +13,7 @@
 </style></head><body class="lp"><header><a href="/" aria-label="Lucalla home"><img src="/images/logo-light.svg" alt="Lucalla"></a><nav aria-label="Main"><a href="/#how">How it works</a><a href="/#pricing">Pricing</a><a href="/demo/">Live demo</a><a href="/#faq">FAQ</a><a href="mailto:hello@lucalla.com">Contact</a></nav><a class="btn hb" href="/#trial">Start free trial</a></header>
 <div class="demo">
 <h1>Talk to a receptionist that already knows your business</h1>
-<p>Enter your website. We read it, then you can speak with an AI receptionist for up to 3 minutes. Allow your microphone when asked.</p>
+<p>Enter your website. We read it, then you can speak with an AI receptionist for up to 1 minute. Allow your microphone when asked.</p>
 <input id="site" placeholder="yourpractice.com" autocomplete="url" inputmode="url">
 <button id="go">Start the demo call</button>
 <div id="status"></div>
@@ -75,7 +75,7 @@ $("go").onclick = async () => {
     ws.send(out.buffer);
   };
   src.connect(proc); proc.connect(ctx.destination);
-  ws.onopen = () => { if(d.settings) ws.send(JSON.stringify(d.settings)); say("Connected to a receptionist for " + d.host + ". Say hello."); let left=d.seconds; $("timer").textContent="3:00";
+  ws.onopen = () => { if(d.settings) ws.send(JSON.stringify(d.settings)); say("Connected to a receptionist for " + d.host + ". Say hello."); let left=d.seconds; $("timer").textContent=Math.floor(left/60)+":"+String(left%60).padStart(2,"0");
     tick=setInterval(()=>{ left--; $("timer").textContent=Math.floor(left/60)+":"+String(left%60).padStart(2,"0"); if(left<=0) stop("Demo finished. Start the free trial to get a number for your business."); },1000); };
   ws.onmessage = (e) => {
     if(typeof e.data !== "string"){
