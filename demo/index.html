@@ -7,6 +7,7 @@
 .demo input{width:100%;padding:14px;border:1px solid #cdd5e3;border-radius:10px;font-size:16px;margin:8px 0}
 .demo button{background:#f59e4b;color:#10203f;border:0;border-radius:12px;padding:14px 26px;font-size:17px;font-weight:700;cursor:pointer}
 .demo button:disabled{opacity:.5}
+.demo #end{background:#fff;color:#10203f;border:2px solid #10203f;padding:12px 22px}
 #status{margin:16px 0;min-height:24px;color:#41506b}
 .timer{font-variant-numeric:tabular-nums;font-weight:700;color:#10203f}
 .note{font-size:13px;color:#6b7891;margin-top:18px}
@@ -15,7 +16,7 @@
 <h1>Talk to a receptionist that already knows your business</h1>
 <p>Enter your website. We read it, then you can speak with an AI receptionist for up to 1 minute. Allow your microphone when asked.</p>
 <input id="site" placeholder="yourpractice.com" autocomplete="url" inputmode="url">
-<button id="go">Start the demo call</button>
+<button id="go">Start the demo call</button> <button id="end" type="button" hidden>End demo</button>
 <div id="status"></div>
 <div class="timer" id="timer"></div>
 <p class="note">Demo only. It answers from your public website and does not book anything. Do not say patient information. Your voice is processed live by our speech and AI providers (Deepgram and its language-model partners) and is not recorded or stored by us. See the <a href="/privacy/">Privacy Policy</a>.</p>
@@ -26,10 +27,11 @@
 let API = "https://lucalla.com";
 const BASES = ["https://lucalla.com", "https://api.lucalla.com", "https://voice.lucalla.com", "https://lucallavoice.pythonanywhere.com"];
 const $ = (id) => document.getElementById(id);
-let ready = false, ws, ctx, stream, nextT = 0, srcs = [], tick;
+let cancelled = false, ready = false, ws, ctx, stream, nextT = 0, srcs = [], tick;
 function say(t){ $("status").textContent = t; }
 function stop(msg){
-  clearInterval(tick); try{ ws && ws.close(); }catch{}
+  clearInterval(tick); try{ if(ws){ ws.onclose=null; ws.onerror=null; ws.close(); } }catch{}
+  ws = null; ready = false; flush(); $("end").hidden = true;
   try{ stream && stream.getTracks().forEach(t=>t.stop()); }catch{}
   try{ ctx && ctx.close(); }catch{}
   $("go").disabled = false; $("timer").textContent = ""; if(msg) say(msg);
@@ -43,9 +45,10 @@ function play(buf){
   srcs.push(s); s.onended = () => { srcs = srcs.filter(x=>x!==s); };
 }
 function flush(){ srcs.forEach(s=>{try{s.stop()}catch{}}); srcs=[]; nextT = ctx ? ctx.currentTime : 0; }
+$("end").onclick = () => { cancelled = true; stop("Demo ended."); };
 $("go").onclick = async () => {
   const url = $("site").value.trim(); if(!url){ say("Enter your website first."); return; }
-  $("go").disabled = true; say("Reading your website...");
+  cancelled = false; $("go").disabled = true; $("end").hidden = false; say("Reading your website...");
   let r, diag = [];
   for(const b of BASES){
     const h = b.replace("https://","");
@@ -57,11 +60,13 @@ $("go").onclick = async () => {
       diag.push(h + " " + x.status + (sv ? " " + sv : ""));
     }catch(err){ diag.push(h + " " + (err && err.name ? err.name : "network")); }
   }
-  if(!r) return stop("Could not start the demo from this connection. Please try another network or the free trial. Details: " + diag.join("; ") + ".");
+  if(!r) return cancelled ? undefined : stop("Could not start the demo from this connection. Please try another network or the free trial. Details: " + diag.join("; ") + ".");
+  if(cancelled) return;
   let d; try{ d = await r.json(); }catch{ return stop("The demo service returned an unexpected answer (status " + r.status + " from " + API.replace("https://","") + "). Please try again in a minute."); }
   if(!r.ok) return stop(d.message || "The demo is unavailable right now. Start the free trial instead.");
   try{ stream = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,channelCount:1}}); }
   catch{ return stop("Microphone access is needed for the demo."); }
+  if(cancelled){ try{ stream.getTracks().forEach(t=>t.stop()); }catch{} return; }
   ctx = new (window.AudioContext||window.webkitAudioContext)();
   const src = ctx.createMediaStreamSource(stream);
   const proc = ctx.createScriptProcessor(4096,1,1);
