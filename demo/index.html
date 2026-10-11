@@ -57,7 +57,7 @@ function play(buf){
 function flush(){ srcs.forEach(s=>{try{s.stop()}catch{}}); srcs=[]; nextT = ctx ? ctx.currentTime : 0; }
 $("end").onclick = () => { cancelled = true; stop("Demo ended."); };
 $("go").onclick = async () => {
-  const url = $("site").value.trim(); if(!url && !(new URLSearchParams(location.search).get("mine")&&localStorage.getItem("lc_s"))){ say("Enter your website first."); return; }
+  let url = $("site").value.trim(); const mine = new URLSearchParams(location.search).get("mine")&&localStorage.getItem("lc_s"); if(!url && mine){ try{ const m = await (await fetch("https://account.lucalla.com/me",{headers:{Authorization:"Bearer "+localStorage.getItem("lc_s")}})).json(); url = (m.settings&&m.settings.website)||""; }catch(e){} } if(!url){ say("Enter your website first."); return; }
   cancelled = false; $("go").disabled = true; $("end").hidden = false; say("Reading your website..."); setBar(0.02,"Starting");
   let r, diag = [];
   for(const b of BASES){
