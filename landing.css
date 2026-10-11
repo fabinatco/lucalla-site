@@ -115,3 +115,6 @@ details{border-bottom:1px solid var(--line);padding:18px 0}summary{font-weight:7
 .hero:before{width:340px;height:340px}.hero:after{width:380px;height:380px;right:-140px}
 html{scroll-padding-top:100px}
 }
+
+.lp header .lg{font-weight:600;font-size:15px;color:var(--navy);text-decoration:none;padding:8px 16px;border:1.5px solid var(--navy);border-radius:12px;white-space:nowrap}.lp header .lg:hover{background:var(--navy);color:#fff}
+@media(max-width:900px){.lp header .lg{order:2;margin-left:auto;padding:8px 14px}.lp header .lg+.hb{margin-left:0}}
