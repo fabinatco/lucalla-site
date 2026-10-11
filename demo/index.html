@@ -9,6 +9,7 @@
 .demo button:disabled{opacity:.5}
 .demo #end{background:#fff;color:#10203f;border:2px solid #10203f;padding:12px 22px}
 #status{margin:16px 0;min-height:24px;color:#41506b}
+#bar{display:none;max-width:420px;margin:0 auto 12px}#bar .tr{height:10px;background:#e3e8f2;border-radius:99px;overflow:hidden}#bar .fl{height:100%;width:0;background:#f59e4b;border-radius:99px;transition:width .35s ease}#bar .lb{display:flex;justify-content:space-between;font-size:13px;color:#41506b;margin-top:6px;font-variant-numeric:tabular-nums}
 .timer{font-variant-numeric:tabular-nums;font-weight:700;color:#10203f}
 .note{font-size:13px;color:#6b7891;margin-top:18px}
 </style></head><body class="lp"><header><a href="/" aria-label="Lucalla home"><img src="/images/logo-light.svg" alt="Lucalla"></a><nav aria-label="Main"><a href="/#how">How it works</a><a href="/#pricing">Pricing</a><a href="/demo/">Live demo</a><a href="/#faq">FAQ</a><a href="mailto:hello@lucalla.com">Contact</a></nav><a class="btn hb" href="/#trial">Start free trial</a></header>
@@ -17,6 +18,7 @@
 <p>Enter your website. We read it, then you can speak with an AI receptionist for up to 1 minute. Allow your microphone when asked.</p>
 <input id="site" placeholder="yourpractice.com" autocomplete="url" inputmode="url">
 <button id="go">Start the demo call</button> <button id="end" type="button" hidden>End demo</button>
+<div id="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="tr"><div class="fl" id="barfl"></div></div><div class="lb"><span id="barmsg"></span><span id="barpct">0%</span></div></div>
 <div id="status"></div>
 <div class="timer" id="timer"></div>
 <div id="txbox" hidden style="text-align:left;margin:14px 0"><div id="tx" style="white-space:pre-wrap;font-size:14px;max-height:260px;overflow:auto;border:1px solid #d9deea;border-radius:10px;padding:10px"></div><button id="txcopy" type="button" style="margin-top:8px;background:none;border:1px solid #14284b;color:#14284b;border-radius:8px;padding:6px 12px;cursor:pointer">Copy transcript</button></div>
@@ -32,10 +34,12 @@ let API = "https://lucalla.com";
 const BASES = ["https://lucalla.com", "https://api.lucalla.com", "https://voice.lucalla.com", "https://lucallavoice.pythonanywhere.com"];
 const $ = (id) => document.getElementById(id);
 let cancelled = false, ready = false, ws, ctx, stream, nextT = 0, srcs = [], tick;
+function setBar(p,m){ const b=$("bar"); b.style.display="block"; const pc=Math.round(Math.max(0,Math.min(1,p))*100); $("barfl").style.width=pc+"%"; $("barpct").textContent=pc+"%"; b.setAttribute("aria-valuenow",pc); if(m!=null) $("barmsg").textContent=m; }
+function hideBar(){ $("bar").style.display="none"; }
 function say(t){ $("status").textContent = t; }
 function stop(msg){
   clearInterval(tick); try{ if(ws){ ws.onclose=null; ws.onerror=null; ws.close(); } }catch{}
-  ws = null; ready = false; flush(); $("end").hidden = true;
+  ws = null; ready = false; flush(); $("end").hidden = true; hideBar();
   try{ stream && stream.getTracks().forEach(t=>t.stop()); }catch{}
   try{ ctx && ctx.close(); }catch{}
   $("go").disabled = false; $("timer").textContent = ""; if(msg) say(msg);
@@ -52,13 +56,13 @@ function flush(){ srcs.forEach(s=>{try{s.stop()}catch{}}); srcs=[]; nextT = ctx 
 $("end").onclick = () => { cancelled = true; stop("Demo ended."); };
 $("go").onclick = async () => {
   const url = $("site").value.trim(); if(!url){ say("Enter your website first."); return; }
-  cancelled = false; $("go").disabled = true; $("end").hidden = false; say("Reading your website...");
+  cancelled = false; $("go").disabled = true; $("end").hidden = false; say("Reading your website..."); setBar(0.02,"Starting");
   let r, diag = [];
   for(const b of BASES){
     const h = b.replace("https://","");
     try{
       const ac = new AbortController(); const to = setTimeout(()=>ac.abort(), b.includes("pythonanywhere") ? 22000 : 14000);
-      let x; try{ x = await fetch(b + "/session", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({url}), cache:"no-store", signal: ac.signal}); } finally { clearTimeout(to); }
+      let x; try{ x = await fetch(b + "/session", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({url, stream: !b.includes("pythonanywhere")}), cache:"no-store", signal: ac.signal}); } finally { clearTimeout(to); }
       if(x.ok || x.status===429 || x.status===400 || x.status===403 || x.status===502 || x.status===503){ r = x; API = b; break; }
       let sv = ""; try{ sv = x.headers.get("server") || ""; }catch{}
       diag.push(h + " " + x.status + (sv ? " " + sv : ""));
@@ -66,8 +70,23 @@ $("go").onclick = async () => {
   }
   if(!r) return cancelled ? undefined : stop("Could not start the demo from this connection. Please try another network or the free trial. Details: " + diag.join("; ") + ".");
   if(cancelled) return;
-  let d; try{ d = await r.json(); }catch{ return stop("The demo service returned an unexpected answer (status " + r.status + " from " + API.replace("https://","") + "). Please try again in a minute."); }
-  if(!r.ok) return stop(d.message || "The demo is unavailable right now. Start the free trial instead.");
+  let d, st = r.status;
+  try{
+    if((r.headers.get("content-type")||"").includes("ndjson")){
+      const rd = r.body.getReader(), dec = new TextDecoder(); let buf = "";
+      const kill = setTimeout(()=>{ try{ rd.cancel(); }catch{} }, 30000);
+      for(;;){
+        const {value, done} = await rd.read(); if(done) break;
+        buf += dec.decode(value, {stream:true});
+        let i; while((i = buf.indexOf("\n")) >= 0){ const ln = buf.slice(0,i); buf = buf.slice(i+1); if(!ln.trim()) continue; const o = JSON.parse(ln); if(o.done){ d = o; st = o.status; } else setBar(o.p, o.m); }
+      }
+      clearTimeout(kill);
+      if(!d) throw 0;
+    } else d = await r.json();
+  }catch{ return stop("The demo service returned an unexpected answer (status " + r.status + " from " + API.replace("https://","") + "). Please try again in a minute."); }
+  if(cancelled) return;
+  if(st !== 200) return stop(d.message || "The demo is unavailable right now. Start the free trial instead.");
+  setBar(0.94,"Website read. Allow your microphone");
   try{ stream = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,channelCount:1}}); }
   catch{ return stop("Microphone access is needed for the demo."); }
   if(cancelled){ try{ stream.getTracks().forEach(t=>t.stop()); }catch{} return; }
@@ -84,7 +103,7 @@ $("go").onclick = async () => {
     ws.send(out.buffer);
   };
   src.connect(proc); proc.connect(ctx.destination);
-  ws.onopen = () => { if(d.settings) ws.send(JSON.stringify(d.settings)); say("Connected to a receptionist for " + d.host + ". Say hello."); let left=d.seconds; $("timer").textContent=Math.floor(left/60)+":"+String(left%60).padStart(2,"0");
+  ws.onopen = () => { setBar(1,"Connected"); setTimeout(hideBar,2500); if(d.settings) ws.send(JSON.stringify(d.settings)); say("Connected to a receptionist for " + d.host + ". Say hello."); let left=d.seconds; $("timer").textContent=Math.floor(left/60)+":"+String(left%60).padStart(2,"0");
     tick=setInterval(()=>{ left--; $("timer").textContent=Math.floor(left/60)+":"+String(left%60).padStart(2,"0"); if(left<=0) stop("Demo finished. Start the free trial to get a number for your business."); },1000); };
   ws.onmessage = (e) => {
     if(typeof e.data !== "string"){
