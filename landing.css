@@ -117,4 +117,4 @@ html{scroll-padding-top:100px}
 }
 
 .lp header .lg{font-weight:600;font-size:15px;color:var(--navy);text-decoration:none;padding:8px 16px;border:1.5px solid var(--navy);border-radius:12px;white-space:nowrap}.lp header .lg:hover{background:var(--navy);color:#fff}
-@media(max-width:900px){.lp header .lg{order:2;margin-left:auto;padding:7px 11px;font-size:14px;border-radius:10px}.lp header .lg+.hb{margin-left:0;padding:8px 12px;font-size:14px;border-radius:10px}.lp header{gap:6px 8px}}
+@media(max-width:900px){.lp header .lg{order:2;margin-left:auto;padding:7px 11px;font-size:14px;border-radius:10px}.lp header .lg+.hb{margin-left:0;padding:8px 10px;font-size:13.5px;border-radius:10px}.lp header{gap:6px 8px;padding-left:4vw;padding-right:4vw}.lp header>a:first-child img{height:30px}}
