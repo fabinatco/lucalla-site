@@ -19,11 +19,15 @@
 <button id="go">Start the demo call</button> <button id="end" type="button" hidden>End demo</button>
 <div id="status"></div>
 <div class="timer" id="timer"></div>
+<div id="txbox" hidden style="text-align:left;margin:14px 0"><div id="tx" style="white-space:pre-wrap;font-size:14px;max-height:260px;overflow:auto;border:1px solid #d9deea;border-radius:10px;padding:10px"></div><button id="txcopy" type="button" style="margin-top:8px;background:none;border:1px solid #14284b;color:#14284b;border-radius:8px;padding:6px 12px;cursor:pointer">Copy transcript</button></div>
 <p class="note">Demo only. It answers from your public website and does not book anything. Do not say patient information. Your voice is processed live by our speech and AI providers (Deepgram and its language-model partners) and is not recorded or stored by us. See the <a href="/privacy/">Privacy Policy</a>.</p>
 <p><a class="btn" href="/#trial">Start free trial</a></p>
 </div>
 <footer><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/sms/">SMS &amp; opt-out</a><br><br>Lucalla is operated by FN Developments LLC, 2121 1st Ave N, Ste N, Birmingham, AL 35203. Not a clinic or an emergency service.</footer>
 <script>
+const TX = new URLSearchParams(location.search).get("transcript")==="1";
+if(TX){ document.addEventListener("DOMContentLoaded",()=>{ document.getElementById("txbox").hidden=false; document.getElementById("txcopy").onclick=()=>{ const t=document.getElementById("tx").textContent; (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{document.getElementById("txcopy").textContent="Copied"},()=>{const r=document.createRange();r.selectNodeContents(document.getElementById("tx"));const sel=getSelection();sel.removeAllRanges();sel.addRange(r);}); }; }); }
+
 let API = "https://lucalla.com";
 const BASES = ["https://lucalla.com", "https://api.lucalla.com", "https://voice.lucalla.com", "https://lucallavoice.pythonanywhere.com"];
 const $ = (id) => document.getElementById(id);
@@ -88,7 +92,7 @@ $("go").onclick = async () => {
       else if(e.data && e.data.arrayBuffer) e.data.arrayBuffer().then(play);
       return;
     }
-    try{ const m = JSON.parse(e.data); if(m.type==="SettingsApplied") ready = true; if(m.type==="UserStartedSpeaking") flush(); }catch{}
+    try{ const m = JSON.parse(e.data); if(TX && m.type==="ConversationText" && m.content){ $("tx").textContent += (m.role==="user"?"Caller: ":"Receptionist: ")+m.content+"\n"; $("tx").scrollTop=1e6; } if(m.type==="SettingsApplied") ready = true; if(m.type==="UserStartedSpeaking") flush(); }catch{}
   };
   ws.onclose = () => stop("Call ended. Start the free trial to get a number for your business.");
   ws.onerror = () => stop("The call failed. Try again or start the free trial.");
