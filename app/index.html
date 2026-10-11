@@ -1,0 +1,52 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Lucalla account</title>
+<style>
+:root{--ink:#102a4c;--mut:#5b6b82;--line:#dfe5ee;--bg:#f6f8fb;--cta:#e8793a}
+*{box-sizing:border-box}body{margin:0;font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:var(--bg)}
+header{padding:18px 24px;background:#fff;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+header b{font-size:20px}main{max-width:680px;margin:32px auto;padding:0 20px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px;margin-bottom:20px}
+h1{font-size:24px;margin:0 0 6px}h2{font-size:18px;margin:0 0 12px}p{color:var(--mut);margin:6px 0 14px}
+label{display:block;font-weight:600;margin:14px 0 4px;font-size:14px}
+input,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;font:inherit;color:var(--ink)}
+textarea{min-height:72px}button{background:var(--cta);color:#fff;border:0;border-radius:10px;padding:11px 20px;font:600 16px inherit;cursor:pointer;margin-top:16px}
+button.link{background:none;color:var(--mut);padding:0;margin:0;font-size:14px;font-weight:500}
+.msg{margin-top:12px;font-size:14px}.err{color:#b3261e}.ok{color:#1b7a3d}.soon{color:var(--mut);font-size:14px;border-top:1px dashed var(--line);padding-top:12px;margin-top:16px}
+.hide{display:none}
+</style></head><body>
+<header><b>Lucalla</b><button class="link hide" id="out">Sign out</button></header>
+<main>
+<div class="card" id="login"><h1>Sign in</h1><p>Enter your email and we send a one-time sign-in link. No password.</p>
+<label for="em">Email</label><input id="em" type="email" autocomplete="email"><button id="go">Email me a link</button><div class="msg" id="lm"></div></div>
+<div id="dash" class="hide">
+<div class="card"><h1>Your receptionist</h1><p id="who"></p></div>
+<div class="card"><h2>Business</h2>
+<label>Business name</label><input id="business_name"><label>Website</label><input id="website" placeholder="yourbusiness.com">
+<label>Opening hours</label><textarea id="hours" placeholder="Mon-Fri 9-5, Sat 10-2"></textarea>
+<label>Greeting</label><textarea id="greeting" placeholder="Thanks for calling ..."></textarea>
+<label>After hours or when we are busy</label><textarea id="after_hours"></textarea>
+<label>Number to forward calls from</label><input id="forwarding_number" inputmode="tel">
+<label>Notes for the receptionist</label><textarea id="notes"></textarea></div>
+<div class="card"><h2>Calendar</h2><p>Paste your booking link (Calendly, Cal.com, or similar) and the receptionist will offer it to callers.</p>
+<label>Booking link</label><input id="booking_link" placeholder="https://cal.com/yourname">
+<div class="soon">Google Calendar and Outlook connection: coming soon.</div></div>
+<div class="card"><h2>Plan and billing</h2><p>Your 7-day trial is not started. Billing opens when the trial does.</p><div class="soon">Cancel and manage billing: available once the trial starts.</div></div>
+<button id="save">Save changes</button><div class="msg" id="sm"></div></div>
+</main>
+<script>
+const API="https://account.lucalla.com";const F=["business_name","website","hours","greeting","after_hours","forwarding_number","notes","booking_link"];
+const $=i=>document.getElementById(i);let S=localStorage.getItem("lc_s");
+const call=async(p,m="GET",b)=>{const r=await fetch(API+p,{method:m,headers:{"Content-Type":"application/json",...(S?{Authorization:"Bearer "+S}:{})},body:b?JSON.stringify(b):undefined});const j=await r.json().catch(()=>({}));return{s:r.status,j}};
+function show(a){$("login").classList.toggle("hide",!!a);$("dash").classList.toggle("hide",!a);$("out").classList.toggle("hide",!a);
+ if(a){$("who").textContent="Signed in as "+a.email;F.forEach(f=>$(f).value=(a.settings||{})[f]||"")}}
+async function init(){const m=location.hash.match(/t=([0-9a-f]{48})/);
+ if(m){history.replaceState(null,"",location.pathname);const r=await call("/verify","POST",{token:m[1]});
+  if(r.s==200){S=r.j.session;localStorage.setItem("lc_s",S)}else{$("lm").className="msg err";$("lm").textContent=r.j.error||"Link failed."}}
+ if(S){const r=await call("/me");if(r.s==200)return show(r.j);localStorage.removeItem("lc_s");S=null}show(null)}
+$("go").onclick=async()=>{$("lm").className="msg";$("lm").textContent="Sending...";const r=await call("/login","POST",{email:$("em").value});
+ $("lm").className="msg "+(r.s==200?"ok":"err");$("lm").textContent=r.s==200?"Check your email for the sign-in link.":(r.j.error||"Something went wrong.")};
+$("save").onclick=async()=>{const b={};F.forEach(f=>b[f]=$(f).value);const r=await call("/me","PUT",b);
+ $("sm").className="msg "+(r.s==200?"ok":"err");$("sm").textContent=r.s==200?"Saved.":(r.j.error||"Could not save.")};
+$("out").onclick=async()=>{await call("/logout","POST");localStorage.removeItem("lc_s");S=null;show(null)};
+init();
+</script></body></html>
