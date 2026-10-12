@@ -125,3 +125,13 @@ html{scroll-padding-top:100px}
 .btn:active{transform:scale(.97)}
 .btn:hover{transform:none}
 @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+/* typography and motion pass */
+.hero h1,.t{text-wrap:balance}
+.hero h1{letter-spacing:-.03em;line-height:1.04}
+.hero p.sub{line-height:1.5;text-wrap:pretty}
+.reveal{transform:translateY(14px);transition:opacity .45s cubic-bezier(.23,1,.32,1),transform .45s cubic-bezier(.23,1,.32,1)}
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.hero .pill,.hero h1,.hero p.sub,.hero .cta-row,.hero .checks{animation:up .5s cubic-bezier(.23,1,.32,1) both}
+.hero h1{animation-delay:.05s}.hero p.sub{animation-delay:.1s}.hero .cta-row{animation-delay:.15s}.hero .checks{animation-delay:.2s}
+.shot{max-width:980px;margin:36px auto 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 10px 30px rgba(16,32,63,.12);background:#fff}
+.shot img{display:block;width:100%;height:auto}
