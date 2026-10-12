@@ -158,3 +158,6 @@ html{scroll-behavior:smooth}section[id],form[id]{scroll-margin-top:84px}
 .pill i{animation:pulse 2s ease-out infinite}@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(244,162,89,.6)}100%{box-shadow:0 0 0 9px rgba(244,162,89,0)}}
 .typing{display:inline-flex;gap:4px;padding:11px 14px;background:var(--navy);border-radius:14px 14px 4px 14px;margin:7px 0 7px auto;width:fit-content;display:flex}.typing i{width:6px;height:6px;border-radius:50%;background:#fff;opacity:.5;animation:ty 1s ease-in-out infinite}.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}@keyframes ty{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(-4px);opacity:1}}
 @media(prefers-reduced-motion:reduce){#sp{display:none}.reveal,.t.rv{opacity:1!important;transform:none!important}.float.a,.float.b2,.phone{opacity:1!important;animation:none!important}html{scroll-behavior:auto}}
+.trust{padding:46px 0 6px}.trust .wrap{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 34px;font-weight:600;color:var(--navy);font-size:15.5px}.trust span{display:inline-flex;align-items:center;gap:8px}
+.s{scroll-margin-top:84px}
+@media(max-width:600px){.trust{padding-top:30px}.trust .wrap{gap:10px 20px;font-size:14.5px}}
