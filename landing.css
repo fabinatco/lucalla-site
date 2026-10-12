@@ -161,3 +161,4 @@ html{scroll-behavior:smooth}section[id],form[id]{scroll-margin-top:84px}
 .trust{padding:46px 0 6px}.trust .wrap{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 34px;font-weight:600;color:var(--navy);font-size:15.5px}.trust span{display:inline-flex;align-items:center;gap:8px}
 .s{scroll-margin-top:84px}
 @media(max-width:600px){.trust{padding-top:30px}.trust .wrap{gap:10px 20px;font-size:14.5px}}
+@media(min-width:901px){.trust .wrap{gap:12px 24px;font-size:15px;flex-wrap:nowrap;max-width:1180px}}
