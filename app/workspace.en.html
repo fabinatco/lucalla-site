@@ -1,9 +1,10 @@
-<!doctype html>
-<html lang="en" dir="ltr">
+<!DOCTYPE html>
+
+<html dir="ltr" lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow">
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="noindex,nofollow" name="robots"/>
 <title>Lucalla | Customer workspace</title>
 <style>*{box-sizing:border-box}
 body{margin:0;background:#f5f7fa;color:#102a4c;font:16px/1.6 system-ui}
@@ -136,6 +137,8 @@ button:focus-visible,a:focus-visible{outline:3px solid #f4a259;outline-offset:3p
 @media(max-width:700px){.metric .value{font-size:22px}
 }
 
+
+.module-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.store-tile{width:100%;aspect-ratio:1/1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:white;border:1px solid #e3e6ed;border-radius:20px;padding:22px;text-align:center;color:#102a4c;transition:transform .15s,box-shadow .15s;position:relative}.store-tile:hover{transform:translateY(-3px);background:white;box-shadow:0 10px 25px #102a4c10}.tile-icon{width:80px;height:80px;display:grid;place-items:center;background:var(--tile-bg);color:var(--tile-ink);border-radius:22px}.tile-icon svg{width:42px;height:42px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.tile-label{font-size:17px;font-weight:700;line-height:1.3}.tile-category{font-size:12px;color:#768093;font-weight:400}.tile-added{position:absolute;top:14px;inset-inline-end:14px;font-size:12px;background:#e6f4ec;color:#256945;padding:3px 8px;border-radius:20px}.store-intro{margin:0 0 26px;color:#62748c;font-size:15px}.store-topline{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:18px}.store-topline input{max-width:380px;border-radius:12px;background:white}.store-caption{font-size:12px;color:#768093;margin:22px 0 0}.store-dialog{border:0;border-radius:24px;padding:30px;max-width:470px;width:calc(100% - 32px);color:#102a4c;box-shadow:0 30px 100px #102a4c30;text-align:start}.store-dialog::backdrop{background:#10203f55;backdrop-filter:blur(3px)}.dialog-close{position:absolute;top:12px;inset-inline-end:12px;width:44px;height:44px;border-radius:50%;padding:0;background:#f1f3f6;font-size:24px;font-weight:400}.dialog-close:hover{background:#e7ebf0}.store-dialog .tile-icon{margin:4px 0 20px}.store-dialog h2{margin:0 0 12px;font-size:27px;line-height:1.2}.store-dialog p{font-size:15px;line-height:1.6;color:#62748c;margin:0 0 14px}.store-dialog .detail-status{font-size:13px;background:#f4f6f9;padding:12px;border-radius:12px;margin:20px 0}.store-dialog .add-module{display:block;width:100%;min-height:48px;background:#102a4c;color:white;border-radius:12px;font-weight:650}.store-dialog .add-module:hover{background:#29486e}.store-dialog .add-module:disabled{background:#e6f4ec;color:#256945;cursor:default}.store-dialog .setup-module{display:block;width:100%;background:white;border:1px solid #dfe5ee;color:#102a4c;border-radius:12px;min-height:48px;margin-top:10px}.store-dialog .selection-note{font-size:12px;margin:14px 0 0}.content.store-mode>.notice{display:none}.content.store-mode>.title-row>.secondary{display:none}.content.store-mode .subtitle{display:none}.store-mode .title-row{margin-bottom:10px}.store-mode .topbar small{max-width:400px}.store-tile:focus-visible{outline:3px solid #f4a259;outline-offset:3px}@media(max-width:700px){.module-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.store-tile{padding:12px;gap:10px;border-radius:16px}.tile-icon{width:58px;height:58px;border-radius:17px}.tile-icon svg{width:33px;height:33px}.tile-label{font-size:14px}.tile-category{font-size:11px}.store-topline{display:block}.store-topline input{max-width:none}.store-dialog{padding:24px}.tile-added{font-size:10px;top:7px;inset-inline-end:7px;padding:2px 5px}.store-intro{font-size:14px;margin:0 0 20px}}
 </style>
 </head>
 <body>
@@ -143,17 +146,17 @@ button:focus-visible,a:focus-visible{outline:3px solid #f4a259;outline-offset:3p
 <aside class="sidebar">
 <div class="brand">Lucalla<small>Your business, connected.</small>
 </div>
-<nav class="side-nav" aria-label="Customer workspace navigation">
-<button data-view="overview" aria-current="page">
-<span class="icon" aria-hidden="true">▦</span>Overview</button>
+<nav aria-label="Customer workspace navigation" class="side-nav">
+<button aria-current="page" data-view="overview">
+<span aria-hidden="true" class="icon">▦</span>Overview</button>
 <button data-view="store">
-<span class="icon" aria-hidden="true">◇</span>Capability store</button>
+<span aria-hidden="true" class="icon">◇</span>Capability store</button>
 <button data-view="activity">
-<span class="icon" aria-hidden="true">☷</span>Activity and customers</button>
+<span aria-hidden="true" class="icon">☷</span>Activity and customers</button>
 <button data-view="preferences">
-<span class="icon" aria-hidden="true">⚙</span>Business settings</button>
+<span aria-hidden="true" class="icon">⚙</span>Business settings</button>
 </nav>
-<footer>Development version<br>Integrations are not active yet.<br>
+<footer>Development version<br/>Integrations are not active yet.<br/>
 <a href="/app/">Account and sign out</a>
 </footer>
 </aside>
@@ -169,10 +172,10 @@ button:focus-visible,a:focus-visible{outline:3px solid #f4a259;outline-offset:3p
 <h1 id="viewTitle">Your business at a glance</h1>
 <p class="subtitle" id="viewSubtitle">Activity, integrations and next steps in one place.</p>
 </div>
-<button class="secondary" type="button" onclick="showView('store')">Explore capabilities</button>
+<button class="secondary" onclick="showView('store')" type="button">Explore capabilities</button>
 </div>
 <div class="notice">Development version: account settings can be saved. Integrations, customer activity, recordings and purchases are not active yet.</div>
-<div id="overview" class="panel-section selected">
+<div class="panel-section selected" id="overview">
 <div class="metrics">
 <div class="metric">
 <label>Calls and messages</label>
@@ -199,10 +202,10 @@ button:focus-visible,a:focus-visible{outline:3px solid #f4a259;outline-offset:3p
 <div class="panel">
 <h2>Recent activity</h2>
 <div class="empty">
-<span class="empty-symbol" aria-hidden="true">☷</span>
+<span aria-hidden="true" class="empty-symbol">☷</span>
 <h3>Your activity will appear here</h3>
 <p>Calls, messages and appointments will appear after an active source is connected. No activity is being collected and no sample data is shown.</p>
-<button class="outline" type="button" onclick="showView('store')">View capabilities</button>
+<button class="outline" onclick="showView('store')" type="button">View capabilities</button>
 </div>
 </div>
 <div class="panel">
@@ -227,120 +230,25 @@ button:focus-visible,a:focus-visible{outline:3px solid #f4a259;outline-offset:3p
 <span>Verified activation</span>
 <span class="state">Inactive</span>
 </div>
-<button type="button" onclick="showView('preferences')">Business settings</button>
+<button onclick="showView('preferences')" type="button">Business settings</button>
 </div>
 </div>
 <div class="panel" style="margin-top:22px">
 <h2>Integration status</h2>
 <p>WhatsApp, CRM, email, customer memory and call archives are not connected. Settings do not grant access or activate services.</p>
-<button class="secondary" type="button" onclick="showView('store')">Capability store</button>
+<button class="secondary" onclick="showView('store')" type="button">Capability store</button>
 </div>
 </div>
-<div id="store" class="panel-section">
-<div class="search-row">
-<input id="storeSearch" aria-label="Search capabilities" placeholder="Search a capability or category...">
-<span class="status-message">Extensions for Lucalla. This is not an external developer marketplace.</span>
-</div>
-<div class="module-grid">
-<article class="module" data-name="WhatsApp Communication channels" data-id="whatsapp">
-<span class="symbol" aria-hidden="true">◉</span>
-<div>
-<span class="chip">Communication channels</span>
-</div>
-<h2>WhatsApp</h2>
-<p>Text and voice replies, using your business number or a new number.</p>
-<span class="state">Planned · Cannot be activated yet</span>
-<button class="outline" type="button" onclick="showModule('whatsapp')">Details and requirements</button>
-</article>
-<article class="module" data-name="External CRM Customers" data-id="crm">
-<span class="symbol" aria-hidden="true">◇</span>
-<div>
-<span class="chip">Customers</span>
-</div>
-<h2>External CRM</h2>
-<p>Add your customer system and keep shared context across channels.</p>
-<span class="state">Planned · Cannot be activated yet</span>
-<button class="outline" type="button" onclick="showModule('crm')">Details and requirements</button>
-</article>
-<article class="module" data-name="Calendar and email Operations" data-id="calendar">
-<span class="symbol" aria-hidden="true">▦</span>
-<div>
-<span class="chip">Operations</span>
-</div>
-<h2>Calendar and email</h2>
-<p>Appointment types, questionnaires and booking links alongside your work account.</p>
-<span class="state">Planned · Cannot be activated yet</span>
-<button class="outline" type="button" onclick="showModule('calendar')">Details and requirements</button>
-</article>
-<article class="module" data-name="Questionnaires Customers" data-id="questionnaire">
-<span class="symbol" aria-hidden="true">☷</span>
-<div>
-<span class="chip">Customers</span>
-</div>
-<h2>Questionnaires</h2>
-<p>Your own questionnaire or one generated for the information you need.</p>
-<span class="state">Planned · Cannot be activated yet</span>
-<button class="outline" type="button" onclick="showModule('questionnaire')">Details and requirements</button>
-</article>
-<article class="module" data-name="Business knowledge Operations" data-id="knowledge">
-<span class="symbol" aria-hidden="true">▤</span>
-<div>
-<span class="chip">Operations</span>
-</div>
-<h2>Business knowledge</h2>
-<p>Documents, images and videos to enrich the knowledge of the receptionist.</p>
-<span class="state">Planned · Cannot be activated yet</span>
-<button class="outline" type="button" onclick="showModule('knowledge')">Details and requirements</button>
-</article>
-<article class="module" data-name="Calls and recordings Communication channels" data-id="archive">
-<span class="symbol" aria-hidden="true">◷</span>
-<div>
-<span class="chip">Communication channels</span>
-</div>
-<h2>Calls and recordings</h2>
-<p>Summaries, transcripts and recordings by customer, with retention and access controls.</p>
-<span class="state">Planned · Cannot be activated yet</span>
-<button class="outline" type="button" onclick="showModule('archive')">Details and requirements</button>
-</article>
-</div>
-<p id="storeEmpty" hidden>No capabilities match your search.</p>
-</div>
-<div id="moduleDetail" class="panel-section">
-<button class="secondary" type="button" onclick="showView('store')">Back to capability store</button>
-<article class="panel detail-panel" style="margin-top:18px">
-<span class="chip">Planned · Inactive</span>
-<h2 id="moduleName">
-</h2>
-<p id="moduleDescription">
-</p>
-<dl>
-<div>
-<dt>Connection requirements</dt>
-<dd id="moduleRequirements">
-</dd>
-</div>
-<div>
-<dt>Provider costs and terms</dt>
-<dd id="moduleCost">
-</dd>
-</div>
-<div>
-<dt>Your permissions and data</dt>
-<dd>Before activation, you will see what data is shared, the provider permissions and how to disconnect. Do not save passwords or keys in these settings.</dd>
-</div>
-</dl>
-<p class="notice">Self-service connection and activation are still in development. The next button only opens settings; it does not install or activate anything.</p>
-<button id="moduleConfigure" type="button">Open settings</button>
-</article>
-</div>
-<div id="activity" class="panel-section">
+<div class="panel-section" id="store"><p class="store-intro">Choose what to add to your business.</p><div class="store-topline"><input aria-label="Search capabilities..." id="storeSearch" placeholder="Search capabilities..."/></div><div class="module-grid"><button class="store-tile" data-id="whatsapp" data-name="WhatsApp Messaging" onclick="openStoreModule('whatsapp')" style="--tile-bg:#ddf8e8;--tile-ink:#147b47"><span class="tile-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M20 11.5a8 8 0 0 1-12 7L3 20l1.5-5a8 8 0 1 1 15.5-3.5Z"></path><path d="M8 8c1 4 3 6 7 7l1-2-3-2-1 1-2-2 1-1-2-2Z"></path></svg></span><span class="tile-label">WhatsApp</span><span class="tile-category">Messaging</span><span class="tile-added" hidden="">Selected</span></button><button class="store-tile" data-id="crm" data-name="External CRM Customers" onclick="openStoreModule('crm')" style="--tile-bg:#ffe9dc;--tile-ink:#d06728"><span class="tile-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><circle cx="9" cy="8" r="3"></circle><path d="M3 20v-2a6 6 0 0 1 12 0v2M17 5a3 3 0 0 1 0 6M17 14a5 5 0 0 1 4 5"></path></svg></span><span class="tile-label">External CRM</span><span class="tile-category">Customers</span><span class="tile-added" hidden="">Selected</span></button><button class="store-tile" data-id="calendar" data-name="Calendar &amp; email Operations" onclick="openStoreModule('calendar')" style="--tile-bg:#e1edff;--tile-ink:#316cc5"><span class="tile-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><rect height="16" rx="3" width="18" x="3" y="5"></rect><path d="M7 3v4M17 3v4M3 11h18M7 15h3M14 15h3"></path></svg></span><span class="tile-label">Calendar &amp; email</span><span class="tile-category">Operations</span><span class="tile-added" hidden="">Selected</span></button><button class="store-tile" data-id="questionnaire" data-name="Questionnaires Customers" onclick="openStoreModule('questionnaire')" style="--tile-bg:#eee3ff;--tile-ink:#8054b8"><span class="tile-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><rect height="18" rx="2" width="14" x="5" y="4"></rect><path d="M9 4V2h6v2M9 10h6M9 14h6M9 18h4"></path></svg></span><span class="tile-label">Questionnaires</span><span class="tile-category">Customers</span><span class="tile-added" hidden="">Selected</span></button><button class="store-tile" data-id="knowledge" data-name="Business knowledge Knowledge" onclick="openStoreModule('knowledge')" style="--tile-bg:#fff0cb;--tile-ink:#a57917"><span class="tile-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><path d="M12 5c-3-3-7-3-10-2v16c4-1 7 0 10 2 3-2 6-3 10-2V3c-3-1-7-1-10 2ZM12 5v16"></path></svg></span><span class="tile-label">Business knowledge</span><span class="tile-category">Knowledge</span><span class="tile-added" hidden="">Selected</span></button><button class="store-tile" data-id="archive" data-name="Recordings Calls" onclick="openStoreModule('archive')" style="--tile-bg:#fde4ef;--tile-ink:#ba527c"><span class="tile-icon"><svg aria-hidden="true" viewbox="0 0 24 24"><rect height="16" rx="3" width="18" x="3" y="4"></rect><path d="M7 10v4M10 8v8M13 6v12M16 9v6M19 11v2"></path></svg></span><span class="tile-label">Recordings</span><span class="tile-category">Calls</span><span class="tile-added" hidden="">Selected</span></button></div><p hidden="" id="storeEmpty">No results</p><p class="store-caption">Planned capabilities. Connection and activation are not available yet.</p></div>
+
+<div class="panel-section" id="activity">
 <div class="panel">
 <h2>Customer activity</h2>
 <div class="empty">
-<span class="empty-symbol" aria-hidden="true">◷</span>
+<span aria-hidden="true" class="empty-symbol">◷</span>
 <h3>No activity source connected</h3>
 <p>You will see calls, messages and appointments by verified customer here. A name or phone number alone does not verify identity.</p>
-<button class="outline" type="button" onclick="showView('store')">View planned integrations</button>
+<button class="outline" onclick="showView('store')" type="button">View planned integrations</button>
 </div>
 </div>
 <div class="panel" style="margin-top:20px">
@@ -349,15 +257,15 @@ button:focus-visible,a:focus-visible{outline:3px solid #f4a259;outline-offset:3p
 <small>Only the most recent save is shown. A full change log is not active yet.</small>
 </div>
 </div>
-<div id="preferences" class="panel-section">
+<div class="panel-section" id="preferences">
 <p class="status-message">Saving only changes settings. You can prepare your business without connecting services.</p>
 <form id="settings">
-<fieldset id="editable" disabled style="border:0;padding:0;margin:0;min-width:0">
+<fieldset disabled="" id="editable" style="border:0;padding:0;margin:0;min-width:0">
 <section id="business">
 <h2>Languages and replies</h2>
 <label>Languages</label>
 <select id="languages">
-<option value="both">Hebrew and English</option value="he">Hebrew</option>
+<option value="both">Hebrew and English</option>Hebrew
 <option value="en">English</option>
 </select>
 <small>Text supports Hebrew and English. Hebrew voice work is deferred; choosing a language does not activate voice.</small>
@@ -368,15 +276,15 @@ button:focus-visible,a:focus-visible{outline:3px solid #f4a259;outline-offset:3p
 <div class="grid">
 <div>
 <label>Appointment name</label>
-<input id="meetingName">
+<input id="meetingName"/>
 </div>
 <div>
 <label>Duration in minutes</label>
-<input id="meetingMinutes" type="number" min="5" max="480" value="30">
+<input id="meetingMinutes" max="480" min="5" type="number" value="30"/>
 </div>
 </div>
 <label>Booking link</label>
-<input id="meetingLink" type="url" dir="ltr">
+<input dir="ltr" id="meetingLink" type="url"/>
 <button id="addMeeting" type="button">Add appointment type</button>
 <div id="meetings">
 </div>
@@ -391,14 +299,14 @@ button:focus-visible,a:focus-visible{outline:3px solid #f4a259;outline-offset:3p
 <option value="generated">Questionnaire generated by Lucalla</option>
 </select>
 <label>Link to an existing questionnaire</label>
-<input id="qLink" dir="ltr" type="url">
+<input dir="ltr" id="qLink" type="url"/>
 <p class="status">Automatic questionnaire generation and answer storage are not active yet. Questions and permitted data will be defined before anything is sent.</p>
 </section>
 <section id="knowledge">
 <h2>Receptionist knowledge</h2>
 <p>Business files, such as documents, images or videos, will add information for replies.</p>
 <label>Choose a file for a local check only</label>
-<input id="file" type="file">
+<input id="file" type="file"/>
 <div id="fileInfo">
 </div>
 <p class="status">Upload and analysis are not active. Not every file type can be processed; supported formats and limits will be shown. Do not upload medical or patient data.</p>
@@ -412,7 +320,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #f4a259;outline-offset:3p
 <option value="purchase">Purchase a number through Lucalla</option>
 </select>
 <label>Existing number in international format</label>
-<input id="number" dir="ltr" placeholder="+972...">
+<input dir="ltr" id="number" placeholder="+972..."/>
 <p class="status">The number is not connected. Purchases require approval of prices and terms. Existing-number eligibility checks will cover manual app use and effects on linked devices.</p>
 <p>Voice messages convert a reply to audio, not a recording of the caller. Current voice supports English only. Hebrew voice work is deferred. A varied mix is planned: longer explanations mostly in audio, short replies in text. Generation and sending are not active.</p>
 </section>
@@ -434,7 +342,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #f4a259;outline-offset:3p
 <h2>Recordings and transcripts</h2>
 <p>Requirement: all calls, with account-based access permissions. A recording announcement will play. Activation awaits the required policies and disclosures.</p>
 <label>Requested retention in days</label>
-<input id="days" type="number" min="1" max="90" value="30">
+<input id="days" max="90" min="1" type="number" value="30"/>
 <small>The limit is three calendar months. Selecting 90 days will not exceed that limit.</small>
 <label>Warnings for retention shorter than a month</label>
 <select id="shortWarning">
@@ -452,7 +360,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #f4a259;outline-offset:3p
 </textarea>
 <small>Planning screen only; no users or access permissions have been created.</small>
 <label>Human reply email</label>
-<input id="handoffEmail" type="email" dir="ltr">
+<input dir="ltr" id="handoffEmail" type="email"/>
 <label>Reply hours and instructions</label>
 <textarea id="handoffHours">
 </textarea>
@@ -470,8 +378,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #f4a259;outline-offset:3p
 const modules=[["whatsapp", "◉", "WhatsApp", "Text and voice replies, using your business number or a new number.", "Communication channels", "Eligible WhatsApp Business account, permission for the number and app-use eligibility checks.", "Meta and provider usage charges may apply. New numbers require price approval.", "wa"], ["crm", "◇", "External CRM", "Add your customer system and keep shared context across channels.", "Customers", "Supported API, account permissions, field mapping and connection verification.", "Depends on the system and its plan. The selected provider price has not been checked yet.", "crm"], ["calendar", "▦", "Calendar and email", "Appointment types, questionnaires and booking links alongside your work account.", "Operations", "OAuth authorization for calendar and email. Suitable work account permissions.", "Calendar and email provider terms will be checked at connection. Saving settings does not make a purchase.", "calendar"], ["questionnaire", "☷", "Questionnaires", "Your own questionnaire or one generated for the information you need.", "Customers", "Questions and information policy before storing answers or sending questionnaires.", "Generation and sending provider costs have not been set yet.", "q"], ["knowledge", "▤", "Business knowledge", "Documents, images and videos to enrich the knowledge of the receptionist.", "Operations", "Supported format, file and storage limits, and safe content analysis.", "Free storage is limited. Exceeding it will be blocked pending a choice and approval, not charged automatically.", "knowledge"], ["archive", "◷", "Calls and recordings", "Summaries, transcripts and recordings by customer, with retention and access controls.", "Communication channels", "Recording announcement, verified identity, permissions and deletion policy.", "No storage or recording is active. Processing services may have a cost.", "calls"]];
 const viewCopy={overview:['Your business at a glance','Activity, integrations and next steps in one place.'],store:['Capability store','Choose what your business needs. Each connection, requirement and activation state is visible.'],activity:['Activity and customers','Shared context across channels, without made-up numbers or unverified identification.'],preferences:['Business settings','Prepare your business. Saving settings does not activate services.'],moduleDetail:['Capability details','Understand what the capability does and what is needed to activate it.']};
 function showView(id){if(!viewCopy[id])return;document.querySelectorAll('.panel-section').forEach(x=>x.classList.toggle('selected',x.id===id));document.querySelectorAll('.side-nav button').forEach(x=>{if(x.dataset.view===id)x.setAttribute('aria-current','page');else x.removeAttribute('aria-current')});document.getElementById('viewTitle').textContent=viewCopy[id][0];document.getElementById('viewSubtitle').textContent=viewCopy[id][1];history.replaceState(null,'','#'+id);window.scrollTo({top:0,behavior:'instant'})}
-function showModule(id){const m=modules.find(x=>x[0]===id);if(!m)return;document.getElementById('moduleName').textContent=m[2];document.getElementById('moduleDescription').textContent=m[3];document.getElementById('moduleRequirements').textContent=m[5];document.getElementById('moduleCost').textContent=m[6];document.getElementById('moduleConfigure').onclick=()=>{showView('preferences');document.getElementById(m[7]).scrollIntoView({block:'start',behavior:'instant'})};showView('moduleDetail')}
-document.querySelectorAll('.side-nav button').forEach(x=>x.onclick=()=>showView(x.dataset.view));document.getElementById('storeSearch').oninput=e=>{let visible=0;document.querySelectorAll('.module').forEach(x=>{const found=x.dataset.name.includes(e.target.value.trim());x.hidden=!found;if(found)visible++});document.getElementById('storeEmpty').hidden=visible!==0};
+document.querySelectorAll('.side-nav button').forEach(x=>x.onclick=()=>showView(x.dataset.view));
 function refreshDashboard(rev,updated){document.getElementById('summaryRevision').textContent=rev?'Revision '+rev:'Not saved yet';const stamp=updated?new Date(updated).toLocaleString('en-US'):'No previous save';document.getElementById('summaryUpdated').textContent=stamp;document.getElementById('configActivity').textContent=rev?'Revision '+rev+' saved at '+stamp+'. Services were not activated.':'No saved settings yet.';document.getElementById('setupAuth').textContent='Signed in';document.getElementById('setupConfig').textContent=rev?'Saved':'Ready to edit'}
 showView(viewCopy[location.hash.slice(1)]?location.hash.slice(1):'overview');
 </script><script>// Account-scoped configuration. Saving never activates a provider, recording or purchase.
@@ -522,4 +429,13 @@ async function load(){ $('editable').disabled=true;try{const r=await call('GET')
 $('reloadWorkspace').onclick=()=>{if(confirm('Reload? Unsaved changes will be lost.'))load()};
 $('settings').onsubmit=async e=>{e.preventDefault();if(pending)return;try{const old=loadedConfig||{};const roles=$('roles').value.split('\n').map(x=>x.trim()).filter(Boolean).map(name=>(old.roles||[]).find(x=>x.name===name)||{name,permissions:[]});const config=validateWorkspace({languages:$('languages').value==='both'?['he','en']:[$('languages').value],meetingTypes,questionnaire:{mode:$('qMode').value,url:$('qLink').value,questions:old.questionnaire?.questions||[]},whatsapp:{numberChoice:$('numberChoice').value,number:$('number').value},memory:{mode:old.memory?.mode||'summary',fields:$('memoryFields').value},retention:{days:Number($('days').value),shortWarning:$('shortWarning').value},handoff:{email:$('handoffEmail').value,hours:$('handoffHours').value,instructions:old.handoff?.instructions||''},roles});pending=true;$('saveWorkspace').disabled=true;$('result').textContent='Saving...';const r=await call('PUT',{revision,workspace:config});if(r.status===401){signedOut();throw Error('Your sign-in has expired. Sign in again.')}if(r.status===409)throw Error('Settings changed in another window. Reload before saving. Changes were not overwritten.');if(r.status!==200)throw Error('Save failed. Changes were not saved.');revision=r.body.revision;refreshDashboard(revision,r.body.updated);loadedConfig=r.body.workspace;$('result').className='';$('result').textContent='Settings saved. Revision '+revision+'. Services, recordings, team permissions and purchases were not activated. '+(config.retention.shortWarning==='undecided'?'The short-retention warning policy is still missing.':'')}catch(err){$('result').className='error';const errors={'Choose at least one supported language':'Choose a language.','Choose questionnaire mode':'Choose a questionnaire source.','Questionnaire link must use HTTPS':'The questionnaire link must start with https://.','Use international phone format':'Enter a number in international format.','Retention must be 1-90 days, never more than three months':'Retention must be 1-90 days, no more than three calendar months.','Booking links must use HTTPS':'The booking link must start with https://.','Invalid handoff email':'The human reply email is invalid.','Up to 20 role definitions':'Up to 20 roles can be planned.','Up to 50 meeting types':'Up to 50 appointment types can be defined.'};$('result').textContent=errors[err.message]||err.message}finally{pending=false;$('saveWorkspace').disabled=false}};
 load();
-</script></html>
+</script><dialog class="store-dialog" id="storeDialog"><button aria-label="Close" class="dialog-close" onclick="document.getElementById('storeDialog').close()">×</button><div class="tile-icon" id="detailIcon"></div><h2 id="detailName"></h2><p id="detailDescription"></p><p id="detailSetup"></p><div class="detail-status">Not connected yet. Add selects a capability for setup only.</div><button class="add-module" id="addModule" onclick="selectStoreModule()">Add</button><button class="setup-module" id="configureModule" onclick="configureStoreModule()">Open settings</button><p class="selection-note">Selection is only for this view. It is not saved to your account or used to activate a service.</p></dialog><script>const storeModules=[{"id": "whatsapp", "name": "WhatsApp", "description": "Reply to customers in text and voice.", "setup": "Choose a business number and reply style.", "bg": "#ddf8e8", "ink": "#147b47", "icon": "<path d=\"M20 11.5a8 8 0 0 1-12 7L3 20l1.5-5a8 8 0 1 1 15.5-3.5Z\"/><path d=\"M8 8c1 4 3 6 7 7l1-2-3-2-1 1-2-2 1-1-2-2Z\"/>"}, {"id": "crm", "name": "External CRM", "description": "Your customers, with shared context.", "setup": "Choose a supported system for customer records.", "bg": "#ffe9dc", "ink": "#d06728", "icon": "<circle cx=\"9\" cy=\"8\" r=\"3\"/><path d=\"M3 20v-2a6 6 0 0 1 12 0v2M17 5a3 3 0 0 1 0 6M17 14a5 5 0 0 1 4 5\"/>"}, {"id": "calendar", "name": "Calendar & email", "description": "Keep appointments and follow-ups in order.", "setup": "Set appointment types and booking links.", "bg": "#e1edff", "ink": "#316cc5", "icon": "<rect x=\"3\" y=\"5\" width=\"18\" height=\"16\" rx=\"3\"/><path d=\"M7 3v4M17 3v4M3 11h18M7 15h3M14 15h3\"/>"}, {"id": "questionnaire", "name": "Questionnaires", "description": "Collect the details you need.", "setup": "Add your questionnaire or plan a new one.", "bg": "#eee3ff", "ink": "#8054b8", "icon": "<rect x=\"5\" y=\"4\" width=\"14\" height=\"18\" rx=\"2\"/><path d=\"M9 4V2h6v2M9 10h6M9 14h6M9 18h4\"/>"}, {"id": "knowledge", "name": "Business knowledge", "description": "A receptionist that knows your business.", "setup": "Plan documents, images and videos.", "bg": "#fff0cb", "ink": "#a57917", "icon": "<path d=\"M12 5c-3-3-7-3-10-2v16c4-1 7 0 10 2 3-2 6-3 10-2V3c-3-1-7-1-10 2ZM12 5v16\"/>"}, {"id": "archive", "name": "Recordings", "description": "Every call, organized by customer.", "setup": "Set retention and team permissions.", "bg": "#fde4ef", "ink": "#ba527c", "icon": "<rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"3\"/><path d=\"M7 10v4M10 8v8M13 6v12M16 9v6M19 11v2\"/>"}];const selectedStoreModules=new Set();let currentStoreModule=null;
+const oldShowView=showView;showView=function(id){document.querySelector('.content').classList.toggle('store-mode',id==='store');oldShowView(id)};
+function openStoreModule(id){const m=storeModules.find(x=>x.id===id);if(!m)return;currentStoreModule=id;const icon=document.getElementById('detailIcon');icon.style.setProperty('--tile-bg',m.bg);icon.style.setProperty('--tile-ink',m.ink);icon.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true">'+m.icon+'</svg>';document.getElementById('detailName').textContent=m.name;document.getElementById('detailDescription').textContent=m.description;document.getElementById('detailSetup').textContent=m.setup;refreshAddButton();document.getElementById('storeDialog').showModal()}
+function refreshAddButton(){const btn=document.getElementById('addModule');const chosen=selectedStoreModules.has(currentStoreModule);btn.disabled=chosen;btn.textContent=chosen?"Added for setup":"Add"}
+function selectStoreModule(){if(!currentStoreModule)return;selectedStoreModules.add(currentStoreModule);document.querySelector('[data-id="'+currentStoreModule+'"] .tile-added').hidden=false;refreshAddButton()}
+function configureStoreModule(){const sections={whatsapp:'wa',crm:'crm',calendar:'calendar',questionnaire:'q',knowledge:'knowledge',archive:'calls'};document.getElementById('storeDialog').close();showView('preferences');document.getElementById(sections[currentStoreModule]).scrollIntoView({block:'start',behavior:'instant'})}
+document.getElementById('storeSearch').oninput=e=>{const q=e.target.value.trim().toLocaleLowerCase();let n=0;document.querySelectorAll('.store-tile').forEach(x=>{x.hidden=!x.dataset.name.toLocaleLowerCase().includes(q);if(!x.hidden)n++});document.getElementById('storeEmpty').hidden=n>0};
+document.getElementById('storeDialog').addEventListener('click',e=>{if(e.target===e.currentTarget){const r=e.currentTarget.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)e.currentTarget.close()}});
+showView(viewCopy[location.hash.slice(1)]?location.hash.slice(1):'overview');
+</script></body></html>
