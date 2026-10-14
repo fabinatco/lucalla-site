@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Lucalla | Customer workspace</title>
+<style>*{box-sizing:border-box}
+body{margin:0;background:#f5f7fa;color:#102a4c;font:16px/1.6 system-ui}
+header{padding:16px 24px;background:white;border-bottom:1px solid #dfe5ee}
+main{max-width:950px;margin:auto;padding:24px}
+h1{font-size:28px}
+h2{font-size:20px}
+section{background:white;border:1px solid #dfe5ee;border-radius:14px;padding:20px;margin:18px 0}
+label{display:block;margin:10px 0 5px}
+input,textarea,select{width:100%;padding:11px;border:1px solid #dfe5ee;border-radius:8px;font:inherit}
+textarea{min-height:90px}
+button{font:inherit;background:#f4a259;border:none;padding:12px 20px;border-radius:8px;cursor:pointer}
+small{color:#5b6b82}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.status{padding:10px;background:#f3f5f8;border-radius:8px}
+.error{color:#b3261e}
+nav{display:flex;flex-wrap:wrap;gap:12px}
+nav a{color:#102a4c}
+.meeting{padding:10px;border-bottom:1px solid #dfe5ee}
+ @media(max-width:650px){main{padding:16px}
+.grid{grid-template-columns:1fr}
+}
+
+[hidden]{display:none!important}
+:root{--nav:#102a4c;--muted:#62748c;--line:#e4eaf1;--orange:#f4a259}
+body{background:#f6f8fc}
+a{color:#102a4c}
+.shell{display:grid;grid-template-columns:238px minmax(0,1fr);min-height:100vh}
+.sidebar{background:#102a4c;color:white;padding:28px 18px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
+.brand{font-size:26px;font-weight:750;letter-spacing:-1px;margin-bottom:28px}
+.brand small{display:block;font-size:12px;color:#b2c3da;letter-spacing:0;font-weight:400}
+.side-nav{display:grid;gap:8px}
+.side-nav button{background:transparent;color:#c2d1e5;text-align:start;border-radius:10px;font-weight:600;min-height:48px;padding:12px 15px}
+.side-nav button[aria-current=page]{background:#28425f;color:white}
+.side-nav button:hover{background:#243f5d}
+.side-nav .icon{display:inline-block;width:26px;font-size:19px}
+.sidebar footer{margin-top:auto;font-size:13px;color:#c2d1e5;border-top:1px solid #36506e;padding-top:20px}
+.sidebar footer a{color:#c2d1e5}
+.content{padding:0 36px 40px;min-width:0}
+.topbar{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding:18px 0;gap:18px}
+.topbar small{display:block}
+.chip{display:inline-block;background:#eaf0f7;padding:5px 10px;border-radius:30px;font-size:12px;color:#38506b}
+.chip.active{background:#e8f5ed;color:#246447}
+.title-row{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:30px 0 20px}
+.title-row h1{font-size:28px;margin:0;line-height:1.3}
+.subtitle{color:var(--muted);margin:8px 0 0;font-size:14px}
+.secondary{background:white;border:1px solid var(--line);color:#102a4c}
+.outline{background:#fff;color:#102a4c;border:1px solid #ccd7e5}
+.notice{background:#fff5e9;border:1px solid #f0dcc2;border-radius:12px;padding:14px 18px;font-size:14px;margin-bottom:24px}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.metric,.panel,.module{background:white;border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 4px 16px #102a4c04}
+.metric label{font-weight:500;color:#62748c;font-size:13px;margin:0}
+.metric .value{font-size:32px;line-height:1.3;font-weight:750;margin:12px 0 4px}
+.metric small{font-size:12px}
+.overview-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:20px;margin-top:22px}
+.panel h2{margin:0 0 16px;font-size:18px}
+.panel p{color:#62748c;font-size:14px}
+.empty{min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:22px}
+.empty-symbol{font-size:32px;background:#eff3f8;border-radius:18px;width:62px;height:62px;display:grid;place-items:center;color:#647b97}
+.empty h3{font-size:17px;margin:15px 0 5px}
+.empty p{max-width:330px;margin:0 0 14px}
+.setup-row{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line);font-size:14px}
+.setup-row:last-child{border:0}
+.step{width:28px;height:28px;display:grid;place-items:center;background:#f0f4f8;border-radius:50%;font-weight:700;flex:none}
+.setup-row .state{margin-inline-start:auto;color:#718197;font-size:12px}
+.module-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.module{display:flex;flex-direction:column;gap:13px}
+.module h2{margin:0;font-size:19px}
+.module p{font-size:14px;color:#62748c;margin:0;flex:1}
+.module .symbol{font-size:25px;background:#edf2f8;width:48px;height:48px;border-radius:12px;display:grid;place-items:center}
+.module .state{font-size:12px;color:#60738d}
+.module button{margin-top:auto;min-height:44px}
+.search-row{display:flex;gap:12px;margin:0 0 20px}
+.search-row input{max-width:420px;background:white}
+.panel-section{display:none}
+.panel-section.selected{display:block}
+#settings{margin:0;max-width:880px}
+#settings section{margin:0 0 18px;box-shadow:none}
+#settings legend{font-size:18px}
+#settings button{min-height:44px}
+#saveWorkspace{position:relative}
+.detail-panel{padding:28px}
+.detail-panel h2{font-size:24px}
+.detail-panel dl{display:grid;gap:16px}
+.detail-panel dt{font-weight:650;font-size:14px}
+.detail-panel dd{margin:6px 0 0;color:#62748c;font-size:14px}
+.loading-lock{opacity:.6;pointer-events:none}
+.datefilter{max-width:180px;min-height:44px}
+.status-message{font-size:14px;color:#62748c}
+.mobile-brand{display:none}
+button:focus-visible,a:focus-visible{outline:3px solid #f4a259;outline-offset:3px}
+.activity-row{padding:14px 0;border-top:1px solid var(--line)}
+
+@media(max-width:1100px){.module-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+.overview-grid{grid-template-columns:1fr}
+.content{padding:0 24px 32px}
+.shell{grid-template-columns:205px minmax(0,1fr)}
+}
+
+@media(max-width:700px){.shell{display:block}
+.sidebar{position:relative;height:auto;padding:14px 16px}
+.brand{font-size:22px;margin:0 0 12px}
+.brand small{display:none}
+.side-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
+.side-nav button{min-height:44px;padding:8px;font-size:13px}
+.sidebar footer{display:none}
+.content{padding:0 16px 30px}
+.topbar{padding:15px 0;font-size:13px}
+.title-row{margin:22px 0 18px;align-items:start;flex-wrap:wrap;gap:12px}
+.title-row h1{font-size:25px}
+.notice{padding:12px;font-size:13px}
+.metrics{gap:10px}
+.metric{padding:15px}
+.metric .value{font-size:28px}
+.metric small{font-size:11px}
+.module-grid{grid-template-columns:1fr}
+.overview-grid{gap:16px;margin-top:16px}
+.panel{padding:18px}
+.detail-panel{padding:20px}
+.search-row{flex-direction:column}
+.datefilter{max-width:none}
+.empty{padding:16px}
+.setup-row{flex-wrap:wrap}
+.setup-row .state{margin-inline-start:40px}
+}
+
+.metric .value{overflow-wrap:anywhere;font-size:26px}
+.topbar{flex-wrap:wrap}
+@media(max-width:700px){.metric .value{font-size:22px}
+}
+
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+<div class="brand">Lucalla<small>Your business, connected.</small>
+</div>
+<nav class="side-nav" aria-label="Customer workspace navigation">
+<button data-view="overview" aria-current="page">
+<span class="icon" aria-hidden="true">▦</span>Overview</button>
+<button data-view="store">
+<span class="icon" aria-hidden="true">◇</span>Capability store</button>
+<button data-view="activity">
+<span class="icon" aria-hidden="true">☷</span>Activity and customers</button>
+<button data-view="preferences">
+<span class="icon" aria-hidden="true">⚙</span>Business settings</button>
+</nav>
+<footer>Development version<br>Integrations are not active yet.<br>
+<a href="/app/">Account and sign out</a>
+</footer>
+</aside>
+<div class="content">
+<header class="topbar">
+<div>Customer workspace<small id="auth">Checking sign-in...</small>
+</div>
+<a class="chip" href="/app/">My account</a>
+<a class="chip" href="/app/workspace.html" lang="he">עברית</a>
+</header>
+<div class="title-row">
+<div>
+<h1 id="viewTitle">Your business at a glance</h1>
+<p class="subtitle" id="viewSubtitle">Activity, integrations and next steps in one place.</p>
+</div>
+<button class="secondary" type="button" onclick="showView('store')">Explore capabilities</button>
+</div>
+<div class="notice">Development version: account settings can be saved. Integrations, customer activity, recordings and purchases are not active yet.</div>
+<div id="overview" class="panel-section selected">
+<div class="metrics">
+<div class="metric">
+<label>Calls and messages</label>
+<div class="value">N/A</div>
+<small>No activity source connected</small>
+</div>
+<div class="metric">
+<label>Identified customers</label>
+<div class="value">N/A</div>
+<small>Customer memory is not active</small>
+</div>
+<div class="metric">
+<label>Appointments booked</label>
+<div class="value">N/A</div>
+<small>Activity calendar not connected</small>
+</div>
+<div class="metric">
+<label>Saved settings</label>
+<div class="value" id="summaryRevision">...</div>
+<small id="summaryUpdated">Checking your account</small>
+</div>
+</div>
+<div class="overview-grid">
+<div class="panel">
+<h2>Recent activity</h2>
+<div class="empty">
+<span class="empty-symbol" aria-hidden="true">☷</span>
+<h3>Your activity will appear here</h3>
+<p>Calls, messages and appointments will appear after an active source is connected. No activity is being collected and no sample data is shown.</p>
+<button class="outline" type="button" onclick="showView('store')">View capabilities</button>
+</div>
+</div>
+<div class="panel">
+<h2>Business setup</h2>
+<div class="setup-row">
+<span class="step">1</span>
+<span>Account sign-in</span>
+<span class="state" id="setupAuth">Checking</span>
+</div>
+<div class="setup-row">
+<span class="step">2</span>
+<span>Business settings</span>
+<span class="state" id="setupConfig">Not loaded yet</span>
+</div>
+<div class="setup-row">
+<span class="step">3</span>
+<span>Choose capabilities</span>
+<span class="state">Planned</span>
+</div>
+<div class="setup-row">
+<span class="step">4</span>
+<span>Verified activation</span>
+<span class="state">Inactive</span>
+</div>
+<button type="button" onclick="showView('preferences')">Business settings</button>
+</div>
+</div>
+<div class="panel" style="margin-top:22px">
+<h2>Integration status</h2>
+<p>WhatsApp, CRM, email, customer memory and call archives are not connected. Settings do not grant access or activate services.</p>
+<button class="secondary" type="button" onclick="showView('store')">Capability store</button>
+</div>
+</div>
+<div id="store" class="panel-section">
+<div class="search-row">
+<input id="storeSearch" aria-label="Search capabilities" placeholder="Search a capability or category...">
+<span class="status-message">Extensions for Lucalla. This is not an external developer marketplace.</span>
+</div>
+<div class="module-grid">
+<article class="module" data-name="WhatsApp Communication channels" data-id="whatsapp">
+<span class="symbol" aria-hidden="true">◉</span>
+<div>
+<span class="chip">Communication channels</span>
+</div>
+<h2>WhatsApp</h2>
+<p>Text and voice replies, using your business number or a new number.</p>
+<span class="state">Planned · Cannot be activated yet</span>
+<button class="outline" type="button" onclick="showModule('whatsapp')">Details and requirements</button>
+</article>
+<article class="module" data-name="External CRM Customers" data-id="crm">
+<span class="symbol" aria-hidden="true">◇</span>
+<div>
+<span class="chip">Customers</span>
+</div>
+<h2>External CRM</h2>
+<p>Add your customer system and keep shared context across channels.</p>
+<span class="state">Planned · Cannot be activated yet</span>
+<button class="outline" type="button" onclick="showModule('crm')">Details and requirements</button>
+</article>
+<article class="module" data-name="Calendar and email Operations" data-id="calendar">
+<span class="symbol" aria-hidden="true">▦</span>
+<div>
+<span class="chip">Operations</span>
+</div>
+<h2>Calendar and email</h2>
+<p>Appointment types, questionnaires and booking links alongside your work account.</p>
+<span class="state">Planned · Cannot be activated yet</span>
+<button class="outline" type="button" onclick="showModule('calendar')">Details and requirements</button>
+</article>
+<article class="module" data-name="Questionnaires Customers" data-id="questionnaire">
+<span class="symbol" aria-hidden="true">☷</span>
+<div>
+<span class="chip">Customers</span>
+</div>
+<h2>Questionnaires</h2>
+<p>Your own questionnaire or one generated for the information you need.</p>
+<span class="state">Planned · Cannot be activated yet</span>
+<button class="outline" type="button" onclick="showModule('questionnaire')">Details and requirements</button>
+</article>
+<article class="module" data-name="Business knowledge Operations" data-id="knowledge">
+<span class="symbol" aria-hidden="true">▤</span>
+<div>
+<span class="chip">Operations</span>
+</div>
+<h2>Business knowledge</h2>
+<p>Documents, images and videos to enrich the knowledge of the receptionist.</p>
+<span class="state">Planned · Cannot be activated yet</span>
+<button class="outline" type="button" onclick="showModule('knowledge')">Details and requirements</button>
+</article>
+<article class="module" data-name="Calls and recordings Communication channels" data-id="archive">
+<span class="symbol" aria-hidden="true">◷</span>
+<div>
+<span class="chip">Communication channels</span>
+</div>
+<h2>Calls and recordings</h2>
+<p>Summaries, transcripts and recordings by customer, with retention and access controls.</p>
+<span class="state">Planned · Cannot be activated yet</span>
+<button class="outline" type="button" onclick="showModule('archive')">Details and requirements</button>
+</article>
+</div>
+<p id="storeEmpty" hidden>No capabilities match your search.</p>
+</div>
+<div id="moduleDetail" class="panel-section">
+<button class="secondary" type="button" onclick="showView('store')">Back to capability store</button>
+<article class="panel detail-panel" style="margin-top:18px">
+<span class="chip">Planned · Inactive</span>
+<h2 id="moduleName">
+</h2>
+<p id="moduleDescription">
+</p>
+<dl>
+<div>
+<dt>Connection requirements</dt>
+<dd id="moduleRequirements">
+</dd>
+</div>
+<div>
+<dt>Provider costs and terms</dt>
+<dd id="moduleCost">
+</dd>
+</div>
+<div>
+<dt>Your permissions and data</dt>
+<dd>Before activation, you will see what data is shared, the provider permissions and how to disconnect. Do not save passwords or keys in these settings.</dd>
+</div>
+</dl>
+<p class="notice">Self-service connection and activation are still in development. The next button only opens settings; it does not install or activate anything.</p>
+<button id="moduleConfigure" type="button">Open settings</button>
+</article>
+</div>
+<div id="activity" class="panel-section">
+<div class="panel">
+<h2>Customer activity</h2>
+<div class="empty">
+<span class="empty-symbol" aria-hidden="true">◷</span>
+<h3>No activity source connected</h3>
+<p>You will see calls, messages and appointments by verified customer here. A name or phone number alone does not verify identity.</p>
+<button class="outline" type="button" onclick="showView('store')">View planned integrations</button>
+</div>
+</div>
+<div class="panel" style="margin-top:20px">
+<h2>Account activity</h2>
+<p id="configActivity">Checking for saved settings...</p>
+<small>Only the most recent save is shown. A full change log is not active yet.</small>
+</div>
+</div>
+<div id="preferences" class="panel-section">
+<p class="status-message">Saving only changes settings. You can prepare your business without connecting services.</p>
+<form id="settings">
+<fieldset id="editable" disabled style="border:0;padding:0;margin:0;min-width:0">
+<section id="business">
+<h2>Languages and replies</h2>
+<label>Languages</label>
+<select id="languages">
+<option value="both">Hebrew and English</option value="he">Hebrew</option>
+<option value="en">English</option>
+</select>
+<small>Text supports Hebrew and English. Hebrew voice work is deferred; choosing a language does not activate voice.</small>
+</section>
+<section id="calendar">
+<h2>Calendar, email and appointment types</h2>
+<p>Booking links first; connecting calendar and email requires separate permission.</p>
+<div class="grid">
+<div>
+<label>Appointment name</label>
+<input id="meetingName">
+</div>
+<div>
+<label>Duration in minutes</label>
+<input id="meetingMinutes" type="number" min="5" max="480" value="30">
+</div>
+</div>
+<label>Booking link</label>
+<input id="meetingLink" type="url" dir="ltr">
+<button id="addMeeting" type="button">Add appointment type</button>
+<div id="meetings">
+</div>
+<p class="status">Gmail, Outlook and direct booking: not connected.</p>
+</section>
+<section id="q">
+<h2>Questionnaire</h2>
+<label>Questionnaire source</label>
+<select id="qMode">
+<option value="none">Not selected yet</option>
+<option value="provided">Business questionnaire</option>
+<option value="generated">Questionnaire generated by Lucalla</option>
+</select>
+<label>Link to an existing questionnaire</label>
+<input id="qLink" dir="ltr" type="url">
+<p class="status">Automatic questionnaire generation and answer storage are not active yet. Questions and permitted data will be defined before anything is sent.</p>
+</section>
+<section id="knowledge">
+<h2>Receptionist knowledge</h2>
+<p>Business files, such as documents, images or videos, will add information for replies.</p>
+<label>Choose a file for a local check only</label>
+<input id="file" type="file">
+<div id="fileInfo">
+</div>
+<p class="status">Upload and analysis are not active. Not every file type can be processed; supported formats and limits will be shown. Do not upload medical or patient data.</p>
+</section>
+<section id="wa">
+<h2>WhatsApp and voice messages</h2>
+<label>Number</label>
+<select id="numberChoice">
+<option value="undecided">Not selected yet</option>
+<option value="existing">Business number</option>
+<option value="purchase">Purchase a number through Lucalla</option>
+</select>
+<label>Existing number in international format</label>
+<input id="number" dir="ltr" placeholder="+972...">
+<p class="status">The number is not connected. Purchases require approval of prices and terms. Existing-number eligibility checks will cover manual app use and effects on linked devices.</p>
+<p>Voice messages convert a reply to audio, not a recording of the caller. Current voice supports English only. Hebrew voice work is deferred. A varied mix is planned: longer explanations mostly in audio, short replies in text. Generation and sending are not active.</p>
+</section>
+<section id="crm">
+<h2>External CRM</h2>
+<p>Optional capability: connect a CRM with a suitable API through this workspace. Each provider support will be checked separately.</p>
+<p class="status">Provider selection, OAuth, permissions, field mapping, sync and disconnection are still in development. No account is created and no data is shared.</p>
+<p>Do not enter API keys or passwords here. The future connection flow will use secure authorization and show fields and provider costs.</p>
+</section>
+<section id="memory">
+<h2>Customers and shared memory</h2>
+<label>What to retain in a customer summary</label>
+<textarea id="memoryFields" placeholder="Requests, decisions and details the business needs to remember">
+</textarea>
+<p class="status">Customer memory is not active. Shared customer records across channels require verified identity and separation between businesses. Names support lookup, not authentication. Customer linking will require verification; SMS codes are an option that is not active yet.</p>
+<p>CRM and service systems will be selected per business. HubSpot has not been selected and no account has been created.</p>
+</section>
+<section id="calls">
+<h2>Recordings and transcripts</h2>
+<p>Requirement: all calls, with account-based access permissions. A recording announcement will play. Activation awaits the required policies and disclosures.</p>
+<label>Requested retention in days</label>
+<input id="days" type="number" min="1" max="90" value="30">
+<small>The limit is three calendar months. Selecting 90 days will not exceed that limit.</small>
+<label>Warnings for retention shorter than a month</label>
+<select id="shortWarning">
+<option value="undecided">No decision yet</option>
+<option value="on_start">Warning when retention starts</option>
+<option value="applicable_only">Only warnings whose dates are possible</option>
+</select>
+<p>Original requirement: warn one month and one week before deletion so files can be downloaded, then delete. Short-retention options are proposals, not an approved default.</p>
+<p class="status">Recording, storage, downloads, warnings and automatic deletion are not active.</p>
+</section>
+<section id="team">
+<h2>Team and human handoff</h2>
+<label>Roles and permissions</label>
+<textarea id="roles" placeholder="One role name per line. No team members or actual permissions are created.">
+</textarea>
+<small>Planning screen only; no users or access permissions have been created.</small>
+<label>Human reply email</label>
+<input id="handoffEmail" type="email" dir="ltr">
+<label>Reply hours and instructions</label>
+<textarea id="handoffHours">
+</textarea>
+<p class="status">No messages have been sent and handoff is not active.</p>
+</section>
+<button id="saveWorkspace" type="submit">Save settings</button>
+<button id="reloadWorkspace" type="button">Reload</button>
+<p id="result" role="status">
+</p>
+</fieldset>
+</form>
+</div>
+</div>
+</div><script>
+const modules=[["whatsapp", "◉", "WhatsApp", "Text and voice replies, using your business number or a new number.", "Communication channels", "Eligible WhatsApp Business account, permission for the number and app-use eligibility checks.", "Meta and provider usage charges may apply. New numbers require price approval.", "wa"], ["crm", "◇", "External CRM", "Add your customer system and keep shared context across channels.", "Customers", "Supported API, account permissions, field mapping and connection verification.", "Depends on the system and its plan. The selected provider price has not been checked yet.", "crm"], ["calendar", "▦", "Calendar and email", "Appointment types, questionnaires and booking links alongside your work account.", "Operations", "OAuth authorization for calendar and email. Suitable work account permissions.", "Calendar and email provider terms will be checked at connection. Saving settings does not make a purchase.", "calendar"], ["questionnaire", "☷", "Questionnaires", "Your own questionnaire or one generated for the information you need.", "Customers", "Questions and information policy before storing answers or sending questionnaires.", "Generation and sending provider costs have not been set yet.", "q"], ["knowledge", "▤", "Business knowledge", "Documents, images and videos to enrich the knowledge of the receptionist.", "Operations", "Supported format, file and storage limits, and safe content analysis.", "Free storage is limited. Exceeding it will be blocked pending a choice and approval, not charged automatically.", "knowledge"], ["archive", "◷", "Calls and recordings", "Summaries, transcripts and recordings by customer, with retention and access controls.", "Communication channels", "Recording announcement, verified identity, permissions and deletion policy.", "No storage or recording is active. Processing services may have a cost.", "calls"]];
+const viewCopy={overview:['Your business at a glance','Activity, integrations and next steps in one place.'],store:['Capability store','Choose what your business needs. Each connection, requirement and activation state is visible.'],activity:['Activity and customers','Shared context across channels, without made-up numbers or unverified identification.'],preferences:['Business settings','Prepare your business. Saving settings does not activate services.'],moduleDetail:['Capability details','Understand what the capability does and what is needed to activate it.']};
+function showView(id){if(!viewCopy[id])return;document.querySelectorAll('.panel-section').forEach(x=>x.classList.toggle('selected',x.id===id));document.querySelectorAll('.side-nav button').forEach(x=>{if(x.dataset.view===id)x.setAttribute('aria-current','page');else x.removeAttribute('aria-current')});document.getElementById('viewTitle').textContent=viewCopy[id][0];document.getElementById('viewSubtitle').textContent=viewCopy[id][1];history.replaceState(null,'','#'+id);window.scrollTo({top:0,behavior:'instant'})}
+function showModule(id){const m=modules.find(x=>x[0]===id);if(!m)return;document.getElementById('moduleName').textContent=m[2];document.getElementById('moduleDescription').textContent=m[3];document.getElementById('moduleRequirements').textContent=m[5];document.getElementById('moduleCost').textContent=m[6];document.getElementById('moduleConfigure').onclick=()=>{showView('preferences');document.getElementById(m[7]).scrollIntoView({block:'start',behavior:'instant'})};showView('moduleDetail')}
+document.querySelectorAll('.side-nav button').forEach(x=>x.onclick=()=>showView(x.dataset.view));document.getElementById('storeSearch').oninput=e=>{let visible=0;document.querySelectorAll('.module').forEach(x=>{const found=x.dataset.name.includes(e.target.value.trim());x.hidden=!found;if(found)visible++});document.getElementById('storeEmpty').hidden=visible!==0};
+function refreshDashboard(rev,updated){document.getElementById('summaryRevision').textContent=rev?'Revision '+rev:'Not saved yet';const stamp=updated?new Date(updated).toLocaleString('en-US'):'No previous save';document.getElementById('summaryUpdated').textContent=stamp;document.getElementById('configActivity').textContent=rev?'Revision '+rev+' saved at '+stamp+'. Services were not activated.':'No saved settings yet.';document.getElementById('setupAuth').textContent='Signed in';document.getElementById('setupConfig').textContent=rev?'Saved':'Ready to edit'}
+showView(viewCopy[location.hash.slice(1)]?location.hash.slice(1):'overview');
+</script><script>// Account-scoped configuration. Saving never activates a provider, recording or purchase.
+const WORKSPACE_SCHEMA = 1;
+const WS_LANGS = ["he", "en"];
+const WS_FILE_TYPES = ["text/plain", "text/csv", "application/pdf", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "image/jpeg", "image/png", "image/webp", "video/mp4", "audio/mpeg", "audio/ogg"];
+function validateWorkspace(input) {
+ if (!input || typeof input !== "object" || Array.isArray(input)) throw Error("Expected an object");
+ const str=(v,n=300)=>typeof v==="string"?v.trim().slice(0,n):"";
+ const obj=v=>v&&typeof v==="object"&&!Array.isArray(v)?v:{};
+ const langs=Array.isArray(input.languages)?input.languages.filter(x=>WS_LANGS.includes(x)):[];
+ if(!langs.length)throw Error("Choose at least one supported language");
+ const mt=Array.isArray(input.meetingTypes)?input.meetingTypes:[];
+ if(mt.length>50)throw Error("Up to 50 meeting types");
+ const meetings=mt.map(m=>{if(!m||!str(m.name,120)||!Number.isInteger(m.minutes)||m.minutes<5||m.minutes>480)throw Error("Meeting type needs a name and duration 5-480 minutes");if(m.bookingLink&&!/^https:\/\//i.test(m.bookingLink))throw Error("Booking links must use HTTPS");return{name:str(m.name,120),minutes:m.minutes,bookingLink:str(m.bookingLink,1000)};});
+ const q=obj(input.questionnaire);if(!["provided","generated","none"].includes(q.mode))throw Error("Choose questionnaire mode");
+ if(q.mode==="provided"&&!/^https:\/\//i.test(q.url||""))throw Error("Questionnaire link must use HTTPS");
+ const questions=Array.isArray(q.questions)?q.questions:[];if(questions.length>50)throw Error("Up to 50 questions");
+ const wa=obj(input.whatsapp);if(!["existing","purchase","undecided"].includes(wa.numberChoice))throw Error("Choose number route");
+ if(wa.number&&!/^\+[1-9][0-9]{6,14}$/.test(wa.number))throw Error("Use international phone format");
+ const mem=obj(input.memory);if(!["summary","off"].includes(mem.mode))throw Error("Choose memory mode");
+ const r=obj(input.retention);if(!Number.isInteger(r.days)||r.days<1||r.days>90)throw Error("Retention must be 1-90 days, never more than three months");
+ if(r.days<31&&!['on_start','applicable_only','undecided'].includes(r.shortWarning))throw Error("Choose short-retention warning policy");
+ const hand=obj(input.handoff);if(hand.email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(hand.email))throw Error("Invalid handoff email");
+ const roles=Array.isArray(input.roles)?input.roles:[];if(roles.length>20)throw Error("Up to 20 role definitions");
+ const perms=["knowledge","settings","customers","conversations","recordings","integrations","team"];
+ const roleDefs=roles.map(x=>{if(!str(x.name,80))throw Error("Role needs a name");return{name:str(x.name,80),permissions:Array.isArray(x.permissions)?x.permissions.filter(p=>perms.includes(p)):[]};});
+ return{schema:WORKSPACE_SCHEMA,languages:[...new Set(langs)],meetingTypes:meetings,questionnaire:{mode:q.mode,url:str(q.url,1000),questions:questions.map(x=>({label:str(x.label,300),required:x.required===true})),generationStatus:"not_connected"},whatsapp:{numberChoice:wa.numberChoice,number:str(wa.number,16),connected:false},memory:{mode:mem.mode,fields:str(mem.fields,2000),active:false},retention:{days:r.days,shortWarning:r.days<31?r.shortWarning:"not_applicable",monthWarning:true,weekWarning:true,recordingActive:false},handoff:{email:str(hand.email,200),hours:str(hand.hours,300),instructions:str(hand.instructions,2000)},roles:roleDefs,providers:{gmail:"not_connected",outlook:"not_connected",crm:"not_connected",support:"not_connected"},knowledge:{formats:WS_FILE_TYPES,analysisActive:false}};
+}
+function retentionEvents(createdAt, days, shortWarning) {
+ const day=86400000;const created=new Date(createdAt);if(!Number.isFinite(created.getTime())||!Number.isInteger(days)||days<1||days>90)throw Error("Invalid retention");
+ const expires=new Date(created.getTime());const originalDay=expires.getUTCDate();expires.setUTCDate(1);expires.setUTCMonth(expires.getUTCMonth()+3);const lastDay=new Date(Date.UTC(expires.getUTCFullYear(),expires.getUTCMonth()+1,0)).getUTCDate();expires.setUTCDate(Math.min(originalDay,lastDay));
+ const deletion=new Date(Math.min(created.getTime()+days*day,expires.getTime()));
+ const clampMonth=(d,delta)=>{const x=new Date(d),originalDay=x.getUTCDate();x.setUTCDate(1);x.setUTCMonth(x.getUTCMonth()+delta);x.setUTCDate(Math.min(originalDay,new Date(Date.UTC(x.getUTCFullYear(),x.getUTCMonth()+1,0)).getUTCDate()));return x;};
+ const warningAt=t=>t>=created.getTime()?new Date(t).toISOString():shortWarning==='on_start'?created.toISOString():null;
+ return{deleteAt:deletion.toISOString(),monthWarningAt:warningAt(clampMonth(deletion,-1).getTime()),weekWarningAt:warningAt(deletion.getTime()-7*day),blocked:days<31&&shortWarning==='undecided'};
+}
+</script><script>
+const $=id=>document.getElementById(id);let meetingTypes=[];let revision=0;let loadedConfig=null;let pending=false;
+$('addMeeting').onclick=()=>{const m={name:$('meetingName').value,minutes:Number($('meetingMinutes').value),bookingLink:$('meetingLink').value};if(!m.name||m.minutes<5||m.minutes>480){$('result').textContent='Enter a name and a duration of 5-480 minutes.';return}meetingTypes.push(m);const row=document.createElement('div');row.className='meeting';const text=document.createElement('span');text.textContent=m.name+' · '+m.minutes+' minutes ';const remove=document.createElement('button');remove.type='button';remove.textContent='Remove';remove.onclick=()=>{meetingTypes=meetingTypes.filter(x=>x!==m);row.remove()};row.append(text,remove);$('meetings').append(row);$('meetingName').value=''};
+$('file').onchange=()=>{const f=$('file').files[0];$('fileInfo').textContent=f?f.name+' · '+Math.ceil(f.size/1024)+' KB · '+(WS_FILE_TYPES.includes(f.type)?'Recognized type in planning; analysis is not active':'This format is not supported yet; it will not be analyzed'):'No file selected'};
+function drawMeetings(){ $('meetings').replaceChildren();for(const m of meetingTypes){const row=document.createElement('div');row.className='meeting';const text=document.createElement('span');text.textContent=m.name+' · '+m.minutes+' minutes ';const remove=document.createElement('button');remove.type='button';remove.textContent='Remove';remove.onclick=()=>{meetingTypes=meetingTypes.filter(x=>x!==m);drawMeetings()};row.append(text,remove);$('meetings').append(row)}}
+const API='https://account.lucalla.com';
+async function call(method,body){const session=localStorage.getItem('lc_s');if(!session)return{status:401};const r=await fetch(API+'/workspace',{method,headers:{'Content-Type':'application/json',Authorization:'Bearer '+session},body:body?JSON.stringify(body):undefined});return{status:r.status,body:await r.json().catch(()=>({}))}}
+function hydrate(c){loadedConfig=c;meetingTypes=c.meetingTypes||[];drawMeetings();$('languages').value=c.languages.length>1?'both':c.languages[0];$('qMode').value=c.questionnaire.mode;$('qLink').value=c.questionnaire.url||'';$('numberChoice').value=c.whatsapp.numberChoice;$('number').value=c.whatsapp.number||'';$('memoryFields').value=c.memory.fields||'';$('days').value=c.retention.days;$('shortWarning').value=c.retention.shortWarning==='not_applicable'?'undecided':c.retention.shortWarning;$('roles').value=(c.roles||[]).map(x=>x.name).join('\n');$('handoffEmail').value=c.handoff.email||'';$('handoffHours').value=c.handoff.hours||''}
+function signedOut(){document.getElementById('setupAuth').textContent='Sign-in required';document.getElementById('summaryRevision').textContent='Sign-in required';document.getElementById('summaryUpdated').textContent='Account data is not accessible'; $('editable').disabled=true;$('auth').replaceChildren();const a=document.createElement('a');a.href='/app/';a.textContent='Sign in to view and save settings.';$('auth').append(a)}
+async function load(){ $('editable').disabled=true;try{const r=await call('GET');if(r.status===401)return signedOut();if(r.status!==200)throw Error('Cannot load right now. Settings were not changed.');revision=r.body.revision;refreshDashboard(revision,r.body.updated);if(r.body.workspace)hydrate(r.body.workspace);$('auth').textContent='Signed in. Your settings are separate from other accounts.';$('editable').disabled=false;$('result').textContent='Settings loaded. Revision '+revision;}catch(e){$('auth').textContent='Cannot load right now. Check the connection and try again. Settings were not changed.'}}
+$('reloadWorkspace').onclick=()=>{if(confirm('Reload? Unsaved changes will be lost.'))load()};
+$('settings').onsubmit=async e=>{e.preventDefault();if(pending)return;try{const old=loadedConfig||{};const roles=$('roles').value.split('\n').map(x=>x.trim()).filter(Boolean).map(name=>(old.roles||[]).find(x=>x.name===name)||{name,permissions:[]});const config=validateWorkspace({languages:$('languages').value==='both'?['he','en']:[$('languages').value],meetingTypes,questionnaire:{mode:$('qMode').value,url:$('qLink').value,questions:old.questionnaire?.questions||[]},whatsapp:{numberChoice:$('numberChoice').value,number:$('number').value},memory:{mode:old.memory?.mode||'summary',fields:$('memoryFields').value},retention:{days:Number($('days').value),shortWarning:$('shortWarning').value},handoff:{email:$('handoffEmail').value,hours:$('handoffHours').value,instructions:old.handoff?.instructions||''},roles});pending=true;$('saveWorkspace').disabled=true;$('result').textContent='Saving...';const r=await call('PUT',{revision,workspace:config});if(r.status===401){signedOut();throw Error('Your sign-in has expired. Sign in again.')}if(r.status===409)throw Error('Settings changed in another window. Reload before saving. Changes were not overwritten.');if(r.status!==200)throw Error('Save failed. Changes were not saved.');revision=r.body.revision;refreshDashboard(revision,r.body.updated);loadedConfig=r.body.workspace;$('result').className='';$('result').textContent='Settings saved. Revision '+revision+'. Services, recordings, team permissions and purchases were not activated. '+(config.retention.shortWarning==='undecided'?'The short-retention warning policy is still missing.':'')}catch(err){$('result').className='error';const errors={'Choose at least one supported language':'Choose a language.','Choose questionnaire mode':'Choose a questionnaire source.','Questionnaire link must use HTTPS':'The questionnaire link must start with https://.','Use international phone format':'Enter a number in international format.','Retention must be 1-90 days, never more than three months':'Retention must be 1-90 days, no more than three calendar months.','Booking links must use HTTPS':'The booking link must start with https://.','Invalid handoff email':'The human reply email is invalid.','Up to 20 role definitions':'Up to 20 roles can be planned.','Up to 50 meeting types':'Up to 50 appointment types can be defined.'};$('result').textContent=errors[err.message]||err.message}finally{pending=false;$('saveWorkspace').disabled=false}};
+load();
+</script></html>
