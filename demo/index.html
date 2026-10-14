@@ -64,7 +64,7 @@ $("go").onclick = async () => {
     const h = b.replace("https://","");
     try{
       const ac = new AbortController(); const to = setTimeout(()=>ac.abort(), b.includes("pythonanywhere") ? 22000 : 14000);
-      let x; try{ x = await fetch(b + "/session", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({url, session: (new URLSearchParams(location.search).get("mine")?localStorage.getItem("lc_s"):null)||undefined, voice: new URLSearchParams(location.search).get("voice")||undefined, stream: !b.includes("pythonanywhere")}), cache:"no-store", signal: ac.signal}); } finally { clearTimeout(to); }
+      let x; try{ x = await fetch(b + "/session", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({url, session: (new URLSearchParams(location.search).get("mine")?localStorage.getItem("lc_s"):null)||undefined, voice: new URLSearchParams(location.search).get("voice")||undefined, pass: new URLSearchParams(location.hash.slice(1)).get("pass")||undefined, stream: !b.includes("pythonanywhere")}), cache:"no-store", signal: ac.signal}); } finally { clearTimeout(to); }
       if(x.ok || x.status===429 || x.status===400 || x.status===403 || x.status===502 || x.status===503){ r = x; API = b; break; }
       let sv = ""; try{ sv = x.headers.get("server") || ""; }catch{}
       diag.push(h + " " + x.status + (sv ? " " + sv : ""));
