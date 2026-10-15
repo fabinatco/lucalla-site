@@ -553,7 +553,7 @@ document.getElementById('checkCalendarStatus').onclick=async()=>{const button=do
 // Matching bilingual workspace navigation. No configuration writes.
 (function(){
  const link=document.getElementById('workspaceLanguageSwitch');
- function languageRoute(){if(link){const url=new URL(link.getAttribute('href'),location.origin);url.hash=location.hash;link.href=url.pathname+url.hash;}}
+ function languageRoute(){if(link){const url=new URL(link.getAttribute('href'),location.origin);url.hash=location.hash;url.searchParams.set('v','parity1035');link.href=url.pathname+url.search+url.hash;}}
  const previous=showView;showView=function(id){previous(id);languageRoute();};languageRoute();
  document.querySelectorAll('[data-home-module]').forEach(button=>button.onclick=()=>{
   const id=button.dataset.homeModule,view=button.dataset.homeView;
