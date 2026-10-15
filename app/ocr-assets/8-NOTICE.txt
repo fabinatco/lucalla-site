@@ -1,0 +1,7 @@
+Lucalla browser-local OCR prototype. Third-party software and trained data are unmodified.
+Tesseract.js 6.0.1: https://github.com/naptha/tesseract.js (Apache-2.0). See tesseract-LICENSE.md and bundled *.LICENSE.txt.
+Tesseract.js-core 6.0.0: https://github.com/naptha/tesseract.js-core (Apache-2.0). See core-LICENSE.txt.
+Language package wrappers @tesseract.js-data/eng and /heb 1.0.0: npm metadata MIT. Package provenance and README files are retained.
+Language trained data source: https://github.com/naptha/tessdata (upstream repository identifies Apache-2.0), derived best_int data. Apache-2.0 text is included as core-LICENSE.txt. Do not infer that the wrapper package license replaces upstream data notices.
+No external CDN is used at runtime. Self-hosted code and selected language data are fetched only when OCR is requested. Original image bytes remain in browser memory and are not sent to a provider.
+OCR output is unreviewed text, not a guarantee of accuracy. Test Hebrew output misread a printed price. Always compare numbers, dates and names to the source image before approval.
