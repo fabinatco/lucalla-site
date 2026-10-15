@@ -767,4 +767,7 @@ for(const [id,value]of Object.entries(EASE.placeholders))if(ease(id))ease(id).pl
 easeNumber.inputMode='tel';easeNumber.autocomplete='tel';ease('handoffEmail').inputMode='email';ease('handoffEmail').autocomplete='email';
 // Existing number and warning policy remain in the saved draft when hidden or not needed.
 easeNumberState();easeRetentionState();
+
+// Ignore an unrelated hidden number draft, while preserving the previously saved number.
+const easeScoped=scopedSetupConfig;scopedSetupConfig=function(candidate,old){const result=easeScoped(candidate,old);if(setupFlowId==='whatsapp'&&result.whatsapp.numberChoice!=='existing')result.whatsapp.number=old?.whatsapp?.number||'';return result;};
 </script></body></html>
