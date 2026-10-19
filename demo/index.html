@@ -1,31 +1,119 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Talk to a Lucalla receptionist that knows your business</title>
-<link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/landing.css?v=8">
-<style>.demo h1{font-size:clamp(26px,5vw,38px);line-height:1.2;margin:0 0 12px;padding-top:22px}.demo{margin:40px auto}
-.demo{max-width:620px;margin:56px auto;padding:0 20px;text-align:center}
-.demo input{width:100%;padding:14px;border:1px solid #cdd5e3;border-radius:10px;font-size:16px;margin:8px 0}
-.demo button{background:#f59e4b;color:#10203f;border:0;border-radius:12px;padding:14px 26px;font-size:17px;font-weight:700;cursor:pointer}
-.demo button:disabled{opacity:.5}
-.demo #end{background:#fff;color:#10203f;border:2px solid #10203f;padding:12px 22px}
-#status{margin:16px 0;min-height:24px;color:#41506b}
-#bar{display:none;max-width:420px;margin:22px auto 14px}#bar .tr{height:10px;background:#e3e8f2;border-radius:99px;overflow:hidden}#bar .fl{height:100%;width:0;background:#f59e4b;border-radius:99px;transition:width .35s ease}#bar .lb{display:flex;justify-content:space-between;font-size:13px;color:#41506b;margin-top:6px;font-variant-numeric:tabular-nums}
-.timer{font-variant-numeric:tabular-nums;font-weight:700;color:#10203f}
-.note{font-size:13px;color:#6b7891;margin-top:18px}
-</style></head><body class="lp"><header><a href="/" aria-label="Lucalla home"><img src="/images/logo-light.svg" alt="Lucalla"></a><nav aria-label="Main"><a href="/#how">How it works</a><a href="/#pricing">Pricing</a><a href="/demo/">Live demo</a><a href="/#faq">FAQ</a><a href="mailto:hello@lucalla.com">Contact</a></nav><a class="lg" href="/app/">Log in</a><a class="btn hb" href="/#trial">Start free trial</a></header>
-<div class="demo">
-<h1>Talk to a receptionist that already knows your business</h1>
-<p>Enter your website. We read it, then you can speak with an AI receptionist for up to 3 minutes. Allow your microphone when asked.</p>
-<input id="site" placeholder="yourpractice.com" autocomplete="url" inputmode="url">
-<button id="go">Start the demo call</button> <button id="end" type="button" hidden>End demo</button>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#102A4C;--navy-deep:#0B1E38;--peach:#EEB797;--peach-deep:#DE8F5C;--paper:#FAF6EF;--mut:#5B6B82;--green:#1FA96B;--wa:#00A884;--cal:#2E7DE9}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Heebo',sans-serif;background:var(--paper);color:var(--navy);-webkit-font-smoothing:antialiased}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 20px}
+.toplinks{display:flex;gap:16px;font-size:12.5px;font-weight:700}
+.toplinks a{color:var(--navy);text-decoration:none;opacity:.75}
+.toplinks a:last-child{opacity:1}
+.kicker{font-size:12.5px;font-weight:800;letter-spacing:.5px;color:var(--peach-deep);display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.kicker:before{content:"";width:26px;height:2.5px;background:var(--peach-deep)}
+.cta{display:flex;align-items:center;justify-content:center;gap:11px;background:var(--navy);color:#fff;padding:18px;border-radius:18px;font-size:17px;font-weight:800;text-decoration:none;box-shadow:0 16px 34px -14px rgba(16,42,76,.5);border:0;cursor:pointer;width:100%}
+.cta .play{width:30px;height:30px;border-radius:50%;background:var(--peach);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.input{width:100%;background:#fff;border:2px solid rgba(16,42,76,.14);border-radius:14px;padding:15px 16px;font-size:15px;font-family:inherit;font-weight:600;color:var(--navy);outline:0}
+.input:focus{border-color:var(--navy)}
+.card{background:#fff;border-radius:22px;box-shadow:0 18px 40px -18px rgba(16,42,76,.28);padding:18px}
+.planrow{display:flex;align-items:baseline;gap:9px;padding:15px 0;border-bottom:2px dashed rgba(238,183,151,.35)}
+.planrow .plan{font-weight:800;font-size:16px;color:#fff}
+.planrow .mins{font-size:12px;color:var(--peach);font-weight:600}
+.planrow .price{margin-inline-start:auto;font-size:24px;font-weight:900;color:#fff}
+.planrow.hot .plan{color:var(--peach)}
+.rc-pop{font-size:10px;font-weight:800;background:var(--peach);color:var(--navy);padding:4px 9px;border-radius:100px}
+.foot{background:var(--navy-deep);padding:30px 20px;font-size:12px;font-weight:500;color:#8FA3BF}
+.foot a{color:var(--peach);text-decoration:none}
+.foot img{width:120px;display:block;margin-bottom:10px}
+/* animated mark */
+.markstage{position:relative;width:170px;height:170px;margin:2px auto 8px}
+.markstage.sm{width:84px;height:84px}
+.mark{width:100%;height:100%;animation:ring 4s infinite;transform-origin:50% 20%}
+@keyframes ring{0%,6%,100%{transform:rotate(0)}1.5%{transform:rotate(9deg)}3%{transform:rotate(-7deg)}4.5%{transform:rotate(4deg)}}
+.ringwave{position:absolute;inset:0;border:3px solid var(--peach);border-radius:32%;opacity:0;animation:wave 4s infinite}
+.ringwave:nth-child(2){animation-delay:.9s}
+@keyframes wave{0%,2%{opacity:.75;transform:scale(1)}22%{opacity:0;transform:scale(1.55)}100%{opacity:0}}
+.bars path{animation:eq 1.15s ease-in-out infinite;transform-box:fill-box;transform-origin:bottom}
+.bars path:nth-child(2){animation-delay:.35s}
+@keyframes eq{0%,100%{transform:scaleY(.6)}50%{transform:scaleY(1)}}
+/* loader */
+.loader{position:fixed;inset:0;background:var(--paper);display:flex;align-items:center;justify-content:center;z-index:50;transition:opacity .35s ease,visibility .35s}
+.loader.hide{opacity:0;visibility:hidden;pointer-events:none}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}.loader{display:none}}
+
+.hero{padding:40px 20px 0;text-align:center}
+.hero h1{font-size:32px;font-weight:900;line-height:1.15;letter-spacing:-.6px;margin:16px 0 10px}
+.hero .sub{font-size:14.5px;font-weight:500;color:var(--mut);line-height:1.6;max-width:320px;margin:0 auto 22px}
+.demobox{margin:24px 20px 0}
+.demobox .input{text-align:center;margin-bottom:13px}
+#go{width:100%}
+#end{width:100%;margin-top:10px;background:#fff;color:var(--navy);border:2px solid var(--navy);border-radius:16px;padding:14px;font-family:inherit;font-weight:800;font-size:15px;cursor:pointer}
+#status{margin:14px 20px 0;min-height:22px;font-size:13.5px;font-weight:600;color:var(--mut);text-align:center}
+#bar{display:none;margin:18px 20px 0}
+#bar .tr{height:8px;background:rgba(16,42,76,.12);border-radius:99px;overflow:hidden}
+#bar .fl{height:100%;width:0;background:var(--peach-deep);border-radius:99px;transition:width .35s ease}
+#bar .lb{display:flex;justify-content:space-between;font-size:12px;color:var(--mut);font-weight:600;margin-top:6px}
+.timer{text-align:center;font-size:22px;font-weight:900;color:var(--navy);margin-top:10px;font-variant-numeric:tabular-nums}
+#txbox{margin:14px 20px 0}
+#tx{white-space:pre-wrap;font-size:13px;max-height:240px;overflow:auto;background:#fff;border-radius:14px;padding:12px;border:1.5px solid rgba(16,42,76,.12)}
+#txcopy{margin-top:8px;background:none;border:1.5px solid var(--navy);color:var(--navy);border-radius:10px;padding:7px 14px;font-weight:700;font-family:inherit;cursor:pointer}
+.minichips{display:flex;gap:8px;justify-content:center;margin:16px 20px 0;flex-wrap:wrap}
+.chip{font-size:11.5px;font-weight:700;background:#fff;border:1.5px solid rgba(16,42,76,.12);padding:7px 12px;border-radius:100px;color:var(--mut)}
+.note{margin:20px 20px 0;font-size:12.5px;color:var(--mut);line-height:1.65;font-weight:500}
+.note a{color:var(--peach-deep)}
+.trial{margin:24px 20px 0}
+</style></head>
+<body><div class="loader" id="lc-loader"><div class="markstage sm"><div class="ringwave"></div><div class="ringwave"></div><svg class="mark" viewBox="0 0 112 112"><rect x="12" y="12" width="88" height="88" rx="26" fill="#102A4C"/><path d="M42 34v30c0 9 5 13 15 13h17" fill="none" stroke="#f7f9fc" stroke-width="9" stroke-linecap="round"/><g class="bars"><path d="M60 35v15" stroke="#EEB797" stroke-width="7" stroke-linecap="round"/><path d="M73 41v17" stroke="#EEB797" stroke-width="7" stroke-linecap="round"/></g></svg></div></div>
+<div class="topbar"><a href="/"><img src="https://lucalla.com/images/logo-light.svg" alt="Lucalla" style="width:108px;display:block"></a><div class="toplinks"><a href="/#how">How it works</a><a href="/#pricing">Pricing</a><a href="/app/">Sign in</a><a href="/he.html">HE</a></div></div>
+<section class="hero">
+  <div class="markstage"><div class="ringwave"></div><div class="ringwave"></div><svg class="mark" viewBox="0 0 112 112"><rect x="12" y="12" width="88" height="88" rx="26" fill="#102A4C"/><path d="M42 34v30c0 9 5 13 15 13h17" fill="none" stroke="#f7f9fc" stroke-width="9" stroke-linecap="round"/><g class="bars"><path d="M60 35v15" stroke="#EEB797" stroke-width="7" stroke-linecap="round"/><path d="M73 41v17" stroke="#EEB797" stroke-width="7" stroke-linecap="round"/></g></svg></div>
+  <div class="kicker" style="justify-content:center">Live voice demo</div>
+  <h1>Talk to a receptionist that already knows your business</h1>
+  <p class="sub">Enter your website. We read it, then you can speak with an AI receptionist for up to 3 minutes. Allow your microphone when asked.</p>
+</section>
+<section class="demobox">
+  <input class="input" id="site" placeholder="yourpractice.com" autocomplete="url" inputmode="url">
+  <button class="cta" id="go"><span class="play"><svg width="13" height="13" viewBox="0 0 24 24" fill="#102A4C"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>Start the demo call</button>
+  <button id="end" type="button" hidden>End demo</button>
+</section>
 <div id="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="tr"><div class="fl" id="barfl"></div></div><div class="lb"><span id="barmsg"></span><span id="barpct">0%</span></div></div>
 <div id="status"></div>
 <div class="timer" id="timer"></div>
-<div id="txbox" hidden style="text-align:left;margin:14px 0"><div id="tx" style="white-space:pre-wrap;font-size:14px;max-height:260px;overflow:auto;border:1px solid #d9deea;border-radius:10px;padding:10px"></div><button id="txcopy" type="button" style="margin-top:8px;background:none;border:1px solid #14284b;color:#14284b;border-radius:8px;padding:6px 12px;cursor:pointer">Copy transcript</button></div>
-<p class="note">Demo only. It answers from your public website and does not book anything. Do not say patient information. Your voice is processed live by our speech and AI providers (Deepgram and its language-model partners) and is not recorded or stored by us. See the <a href="/privacy/">Privacy Policy</a>.</p>
-<p><a class="btn" href="/#trial">Start free trial</a></p>
-</div>
-<footer><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/sms/">SMS &amp; opt-out</a><br><br>Lucalla is operated by FN Developments LLC, 2121 1st Ave N, Ste N, Birmingham, AL 35203. Not a clinic or an emergency service.</footer>
+<div id="txbox" hidden><div id="tx"></div><button id="txcopy" type="button">Copy transcript</button></div>
+<div class="minichips"><span class="chip">Up to 3 minutes</span><span class="chip">Not recorded</span><span class="chip">English only</span></div>
+<p class="note"><b style="color:var(--navy)">Demo only.</b> It answers from your public website and does not book anything. Do not say patient information. Your voice is processed live by our speech and AI providers (Deepgram and its language-model partners) and is not recorded or stored by us. See the <a href="/privacy/">Privacy Policy</a>.</p>
+<section class="trial"><a class="cta" href="/#trial" style="background:var(--peach-deep)">Start free trial - $0 for 7 days</a></section>
+<div style="height:40px"></div>
+<footer class="foot"><img src="https://lucalla.com/images/logo-dark.svg" alt="Lucalla"><a href="/privacy/">Privacy</a> · <a href="/terms/">Terms</a> · <a href="/sms/">SMS &amp; opt-out</a><br><br>Lucalla is operated by FN Developments LLC, 2121 1st Ave N, Ste N, Birmingham, AL 35203. Not a clinic or an emergency service.</footer>
+
+<script>
+(function(){
+var l=document.getElementById('lc-loader');if(!l)return;
+var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var still=/[?&]still/.test(location.search);
+if(reduced||still){l.remove();return;}
+function hide(){l.classList.add('hide');}
+function show(){l.classList.remove('hide');}
+window.lcLoader={show:show,hide:hide};
+setTimeout(hide,1400);
+window.addEventListener('pageshow',function(e){if(e.persisted){show();setTimeout(hide,700);}});
+document.addEventListener('click',function(e){
+  var a=e.target.closest&&e.target.closest('a[href]');
+  if(!a)return;
+  var href=a.getAttribute('href');
+  if(!href||href.charAt(0)==='#'||a.target==='_blank'||/^(https?:|mailto:)/.test(href))return;
+  e.preventDefault();show();setTimeout(function(){location.href=href.split('#')[0];},500);
+});
+document.addEventListener('click',function(e){
+  var b=e.target.closest&&e.target.closest('button.cta,a.cta,.btn,.tile');
+  if(!b)return;
+  show();setTimeout(hide,700);
+});
+})();
+</script>
 <script>
 const PRE=(new URLSearchParams(location.search).get("site")||"").trim().toLowerCase().replace(/^https?:\/\//,"").replace(/[^a-z0-9.\-\/_]/g,"").slice(0,80);
 if(PRE){ document.addEventListener("DOMContentLoaded",()=>{ const i=document.getElementById("site"); if(i&&!i.value) i.value=PRE; }); }
@@ -118,4 +206,5 @@ $("go").onclick = async () => {
   ws.onclose = () => stop("Call ended. Start the free trial to get a number for your business.");
   ws.onerror = () => stop("The call failed. Try again or start the free trial.");
 };
-</script></body></html>
+</script>
+</body></html>
