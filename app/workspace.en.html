@@ -197,8 +197,30 @@ section,.panel,.metric,.module{box-shadow:none;border-color:#e3e5eb;border-radiu
 button:focus-visible,a:focus-visible{outline:3px solid #b9b0e8;outline-offset:2px}
 }
 @media(prefers-reduced-motion:reduce){.topic-tabs,.mobile-drawer-scrim{transition:none}}
-</style><style>@media(min-width:901px){.topic-tabs .mobile-drawer-close{display:none!important}.mobile-brand-full{font-size:0}.mobile-brand-full:before{content:"L";font-size:27px}}</style><style>#basicAccountStatus{font-size:14px;line-height:1.6;overflow-wrap:anywhere;margin:12px 0 0}#basicAccountStatus:empty{display:none}.auto-explanation .website-actions{display:flex;flex-wrap:wrap;gap:8px}.auto-explanation .website-actions button{min-height:44px;margin:0}.auto-explanation[aria-busy=true]{opacity:.85}</style><style>#businessWebsiteActions{scroll-margin-top:135px;grid-column:1/-1;margin-top:-10px;margin-bottom:12px}#businessWebsiteActions .website-actions{display:flex;flex-wrap:wrap;gap:8px}#businessWebsiteActions button{min-height:44px;margin:0}#basicAccountStatus{white-space:pre-line;font-size:14px;line-height:1.6;color:#344767}#businessWebsiteActions[aria-busy=true]{opacity:.85}</style></head>
+</style><style>@media(min-width:901px){.topic-tabs .mobile-drawer-close{display:none!important}.mobile-brand-full{font-size:0}.mobile-brand-full:before{content:"L";font-size:27px}}</style><style>#basicAccountStatus{font-size:14px;line-height:1.6;overflow-wrap:anywhere;margin:12px 0 0}#basicAccountStatus:empty{display:none}.auto-explanation .website-actions{display:flex;flex-wrap:wrap;gap:8px}.auto-explanation .website-actions button{min-height:44px;margin:0}.auto-explanation[aria-busy=true]{opacity:.85}</style><style>#businessWebsiteActions{scroll-margin-top:135px;grid-column:1/-1;margin-top:-10px;margin-bottom:12px}#businessWebsiteActions .website-actions{display:flex;flex-wrap:wrap;gap:8px}#businessWebsiteActions button{min-height:44px;margin:0}#basicAccountStatus{white-space:pre-line;font-size:14px;line-height:1.6;color:#344767}#businessWebsiteActions[aria-busy=true]{opacity:.85}</style>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style id="lc-dirA-reskin">
+body{background:#FAF6EF!important;font-family:'Heebo',system-ui,sans-serif!important}
+:root{--orange:#DE8F5C}
+
+.markstage{position:relative;width:170px;height:170px;margin:2px auto 8px}
+.markstage.sm{width:84px;height:84px}
+.mark{width:100%;height:100%;animation:ring 4s infinite;transform-origin:50% 20%}
+@keyframes ring{0%,6%,100%{transform:rotate(0)}1.5%{transform:rotate(9deg)}3%{transform:rotate(-7deg)}4.5%{transform:rotate(4deg)}}
+.ringwave{position:absolute;inset:0;border:3px solid var(--peach);border-radius:32%;opacity:0;animation:wave 4s infinite}
+.ringwave:nth-child(2){animation-delay:.9s}
+@keyframes wave{0%,2%{opacity:.75;transform:scale(1)}22%{opacity:0;transform:scale(1.55)}100%{opacity:0}}
+.bars path{animation:eq 1.15s ease-in-out infinite;transform-box:fill-box;transform-origin:bottom}
+.bars path:nth-child(2){animation-delay:.35s}
+@keyframes eq{0%,100%{transform:scaleY(.6)}50%{transform:scaleY(1)}}
+
+.loader{position:fixed;inset:0;background:var(--paper);display:flex;align-items:center;justify-content:center;z-index:50;transition:opacity .35s ease,visibility .35s}
+.loader.hide{opacity:0;visibility:hidden;pointer-events:none}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}.loader{display:none}}
+</style>
+</head>
 <body>
+<div class="loader" id="lc-loader"><div class="markstage sm"><div class="ringwave"></div><div class="ringwave"></div><svg class="mark" viewBox="0 0 112 112"><rect x="12" y="12" width="88" height="88" rx="26" fill="#102A4C"/><path d="M42 34v30c0 9 5 13 15 13h17" fill="none" stroke="#f7f9fc" stroke-width="9" stroke-linecap="round"/><g class="bars"><path d="M60 35v15" stroke="#EEB797" stroke-width="7" stroke-linecap="round"/><path d="M73 41v17" stroke="#EEB797" stroke-width="7" stroke-linecap="round"/></g></svg></div></div>
 <div class="shell">
 <aside class="sidebar">
 <div class="brand">Lucalla<small>Your business, connected.</small>
@@ -1140,6 +1162,15 @@ else{st.textContent=L.none;plans.hidden=false}
 }catch(e){st.textContent=L.err}
 box.onclick=async ev=>{const b=ev.target.closest('button[data-plan]');if(!b)return;b.disabled=true;const r=await api('/billing/checkout','POST',{plan:b.dataset.plan});if(r.s===200&&r.j.url){location.href=r.j.url}else{b.disabled=false;alert((r.j&&r.j.error)||'Could not start checkout.')}};
 const mg=document.getElementById('billingManage');if(mg)mg.onclick=async()=>{mg.disabled=true;const r=await api('/billing/portal','POST');if(r.s===200&&r.j.url){location.href=r.j.url}else{mg.disabled=false;alert((r.j&&r.j.error)||'No billing account yet.')}};
+})();
+</script>
+<script>
+(function(){
+var l=document.getElementById('lc-loader');if(!l)return;
+var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(reduced){l.remove();return;}
+setTimeout(function(){l.classList.add('hide');},1400);
+window.addEventListener('pageshow',function(e){if(e.persisted){l.classList.remove('hide');setTimeout(function(){l.classList.add('hide');},700);}});
 })();
 </script>
 </body></html>
