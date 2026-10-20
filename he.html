@@ -111,6 +111,17 @@ body{font-family:'Heebo',sans-serif;background:var(--paper);color:var(--ink);-we
 .costrow.total{border-bottom:none}
 .costrow.total .cp{font-size:23px;color:var(--peach-deep)}
 .costnote{font-size:11px;color:var(--mut);font-weight:500;margin-top:8px}
+
+.stackcost .others{background:#EFEAE0;border-radius:20px;padding:6px 16px 4px;margin-top:6px}
+.stackcost .othhead{display:inline-flex;align-items:center;gap:7px;background:#102A4C;color:#fff;border-radius:100px;padding:6px 12px;font-size:11px;font-weight:800;letter-spacing:.06em;margin:10px 0 4px}
+.stackcost .costrow .cp{direction:ltr;unicode-bidi:isolate}
+.stackcost .costrow{color:#6B7A90;border-bottom-color:rgba(16,42,76,.12)}
+.stackcost .costrow .xic{width:22px;height:22px;border-radius:50%;background:#DE8F5C;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;align-self:center}
+.stackcost .costrow .cp{color:#8A97AB;text-decoration:line-through;text-decoration-thickness:2.5px;text-decoration-color:#DE8F5C}
+.stackcost .costrow.total span:first-of-type{font-weight:800}
+.stackcost .costrow.total .cp{font-size:21px;color:#8A97AB}
+.stackcost .costpunch{background:#102A4C;border:3px solid #25D366;position:relative}
+.stackcost .ourtag{display:inline-flex;align-items:center;gap:6px;background:#25D366;color:#fff;border-radius:100px;padding:5px 11px;font-size:11px;font-weight:800;letter-spacing:.06em;margin-bottom:10px}
 .costpunch{margin-top:18px;background:var(--navy);border-radius:18px;padding:20px 18px;color:#fff}
 .costpunch b{font-size:18px;font-weight:900}
 .costpunch .cp2{color:var(--peach);font-weight:900}
@@ -228,13 +239,13 @@ body{font-family:'Heebo',sans-serif;background:var(--paper);color:var(--ink);-we
 <section class="stackcost">
   <div class="sec-kicker">משתלם</div>
   <h2>כמה עולה אותו דבר במקום אחר</h2>
-  <div class="costrow"><span>שירות מענה AI</span><span class="cp">$99/mo</span></div>
-  <div class="costrow"><span>כלי זימון תורים</span><span class="cp">$16/mo</span></div>
-  <div class="costrow"><span>צ'אט לאתר + דבק אוטומציה</span><span class="cp">$59/mo</span></div>
-  <div class="costrow"><span>טפסים וקליטה</span><span class="cp">$39/mo</span></div>
-  <div class="costrow total"><span>ארבעה מנויים</span><span class="cp">$213/mo</span></div>
-  <div class="costnote">מחירי מתחרים נבדקו ב-18 באוקטובר 2026 באתרי היצרנים.</div>
-  <div class="costpunch"><b>בלוקאלה הכל כלול. <span class="cp2">מ-$89 לחודש.</span></b><p>פקידה אחת עם זיכרון אחד לשיחות, יומן, CRM ווואטסאפ - לא ארבעה כלים שלא מדברים אחד עם השני.</p><a href="#pricing">למסלולים</a></div>
+  <div class="others"><div class="othhead">חברות אחרות גובות</div><div class="costrow"><span class="xic"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span><span>שירות מענה AI</span><span class="cp">$99/mo</span></div>
+  <div class="costrow"><span class="xic"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span><span>כלי זימון תורים</span><span class="cp">$16/mo</span></div>
+  <div class="costrow"><span class="xic"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span><span>צ'אט לאתר + דבק אוטומציה</span><span class="cp">$59/mo</span></div>
+  <div class="costrow"><span class="xic"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span><span>טפסים וקליטה</span><span class="cp">$39/mo</span></div>
+  <div class="costrow total"><span class="xic"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span><span>לקנות את כל הארבעה בנפרד</span><span class="cp">$213/mo</span></div>
+  </div><div class="costnote">מחירון של חברות אחרות, נבדק ב-18 באוקטובר 2026 באתרים שלהן. אלה לא המחירים של לוקאלה.</div>
+  <div class="costpunch"><span class="ourtag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>לוקאלה - המחיר שלנו</span><br><b>בלוקאלה הכל כלול. <span class="cp2">מ-$89 לחודש.</span></b><p>פקידה אחת עם זיכרון אחד לשיחות, יומן, CRM ווואטסאפ - לא ארבעה כלים שלא מדברים אחד עם השני.</p><a href="#pricing">למסלולים</a></div>
 </section>
 <section class="steps">
   <div class="sec-kicker">איך זה עובד</div>
@@ -325,7 +336,7 @@ try{
 var r=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(d)});
 var j=await r.json();
 msg.textContent=j.success?'מעולה - פותחים את הדמו...':'משהו השתבש - כתבו ל-hello@lucalla.com ונקים לכם.';
-if(j.success){var w=f.website.value;f.reset();setTimeout(function(){location.href='/demo/?site='+encodeURIComponent(w)},900);}
+if(j.success){var w=f.website.value;try{sessionStorage.setItem('lc_lead',f.email.value.trim())}catch(x){}f.reset();setTimeout(function(){location.href='/demo/?site='+encodeURIComponent(w)},900);}
 }catch(err){msg.textContent='שגיאת רשת - כתבו ל-hello@lucalla.com ונקים לכם.';}
 });
 </script>
