@@ -174,6 +174,86 @@ body{font-family:'Heebo',sans-serif;background:var(--paper);color:var(--ink);-we
 .signupf label{display:block;font-weight:700;font-size:12.5px;margin:0 0 6px}
 .signupf .field{margin-bottom:13px}
 #trial-msg{font-size:13px;color:var(--mut);font-weight:600;margin:13px 0 0;line-height:1.55}
+/* desktop layout */
+@media (min-width:960px){
+:root{--g:max(32px,calc((100vw - 1160px)/2))}
+.topbar{padding:22px var(--g)}
+.topbar img{width:140px!important}
+.toplinks{gap:34px;font-size:15px}
+.toplinks a:last-child{background:var(--navy);color:#fff;padding:9px 18px;border-radius:100px}
+.hero{padding:56px var(--g) 28px;display:grid;grid-template-columns:1.25fr 1fr;column-gap:56px;align-items:center}
+.hero .kicker{grid-column:1;margin-bottom:22px;font-size:14px}
+.hero .markstage{grid-column:2;grid-row:1/span 5;width:340px;height:340px;margin:0 auto;justify-self:center}
+.hero .mark{width:340px;height:340px}
+.hero h1{grid-column:1;font-size:76px;line-height:1.04;letter-spacing:-1.8px;text-align:start}
+.hero .sub{grid-column:1;font-size:20px;max-width:520px;margin:22px 0 0;text-align:start}
+.hero .cta{grid-column:1;justify-self:start;margin:34px 0 0;padding:20px 38px;font-size:19px}
+.hero .trust{grid-column:1;text-align:start;margin-top:20px;font-size:14.5px}
+.chapters{padding:72px var(--g) 8px;text-align:center}
+.chapters .sec-kicker{justify-content:center}
+.chapters h2,.caps h2,.stackcost h2,.steps h2,.pricing h2,.faq h2,.finalcta h2{font-size:44px;letter-spacing:-1px}
+.mocksec{padding:28px var(--g) 8px;display:grid;grid-template-columns:minmax(0,520px) minmax(0,1fr);gap:40px;align-items:center;justify-content:center}
+.phone{padding:26px;border-radius:28px}
+.msg{font-size:15px;padding:12px 16px}
+.mockchips{flex-direction:column;margin-top:0;gap:16px}
+.mockchip{font-size:18px;padding:24px 26px;border-radius:20px}
+.mockchip span{font-size:14px;margin-top:4px}
+.trialwrap{margin-top:64px;padding:0 var(--g)}
+.signupf{display:grid;grid-template-columns:1fr 1fr;column-gap:20px;padding:44px 48px;max-width:980px;margin:0 auto;border-radius:28px}
+.signupf h2{grid-column:1/-1;font-size:34px}
+.signupf .sub{grid-column:1/-1;font-size:16px}
+.signupf .field{margin-bottom:0}
+.signupf .cta{grid-column:1/-1;justify-self:start;width:auto;padding:18px 44px}
+.signupf #trial-msg{grid-column:1/-1;font-size:13.5px}
+.caps,.stackcost,.steps,.faq{padding:88px var(--g) 8px}
+.caps .lead,.steps .lead{font-size:18px;max-width:640px}
+.capgrid{grid-template-columns:repeat(4,1fr);gap:20px}
+.capcard{padding:24px 22px;border-radius:22px}
+.capcard b{font-size:17px}
+.capcard span{font-size:14px}
+.capcard .cic{width:46px;height:46px;margin-bottom:14px}
+.stackcost{display:grid;grid-template-columns:1fr 1fr;column-gap:56px;align-content:start}
+.stackcost>.sec-kicker,.stackcost>h2{grid-column:1/-1}
+.stackcost .others{grid-column:1;padding:10px 26px 6px}
+.stackcost .costnote{grid-column:1;font-size:12.5px}
+.stackcost .costpunch{grid-column:2;grid-row:3/span 2;align-self:start;margin-top:6px;padding:34px 32px}
+.stackcost .costrow{font-size:16.5px;padding:15px 0}
+.costpunch b{font-size:26px}
+.costpunch p{font-size:15px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);column-gap:22px}
+.steps>.sec-kicker,.steps>h2,.steps>.lead,.steps>.memnote{grid-column:1/-1}
+.step{flex-direction:column;background:#fff;border-radius:22px;padding:28px 26px;border-bottom:none;box-shadow:0 10px 24px -16px rgba(16,42,76,.25);gap:16px}
+.step .n{width:44px;height:44px;font-size:20px;border-radius:14px}
+.step b{font-size:19px}
+.step span{font-size:15px}
+.memnote{font-size:15px;padding:22px 26px}
+.pricing{padding:84px var(--g) 90px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:80px}
+.pricing>.sec-kicker,.pricing>h2,.pricing>.pnote,.pricing>.trialrow,.pricing>.planrow:nth-child(6){grid-column:1/-1}
+.pricing>.planrow:nth-child(-n+5){flex-direction:column;align-items:flex-start;gap:6px;padding:34px 30px;border:2px solid rgba(238,183,151,.4);border-radius:26px;background:rgba(255,255,255,.04);position:relative}
+.pricing>.planrow:nth-child(5){}
+.pricing>.planrow.hot{border-color:var(--peach)!important;background:rgba(238,183,151,.1)!important}
+.pricing .planrow:nth-child(-n+5) .plan{font-size:22px}
+.pricing .planrow:nth-child(-n+5) .mins{font-size:15px}
+.pricing .planrow:nth-child(-n+5) .price{margin:14px 0 0;font-size:52px;letter-spacing:-1px;line-height:1}
+.pricing .planrow:nth-child(-n+5) .price:after{content:" /mo";font-size:16px;font-weight:600;color:var(--peach)}
+.pricing .rc-pop{position:absolute;top:22px;inset-inline-end:22px}
+.pricing>.planrow:nth-child(6){border-bottom:2px dashed rgba(238,183,151,.35);padding:16px 0}
+.pricing .trialrow{font-size:17px;padding:6px 0 0}.pnote a{color:#fff}
+.pnote{text-align:start;font-size:14px;padding:4px 0}
+.faq{display:grid;grid-template-columns:380px 1fr;column-gap:64px;align-content:start}
+.faq>.sec-kicker{grid-column:1;grid-row:1}.faq>h2{grid-column:1;grid-row:2/span 20;align-self:start}
+.faq>details,.faq>.eanote{grid-column:2}
+.faq>details:first-of-type{grid-row:1}
+.faq>.eanote{margin-top:22px}
+.faq summary{font-size:18px}
+.faq details p{font-size:16px}
+.eanote{font-size:14.5px}
+.finalcta{padding:96px var(--g) 100px}
+.finalcta .lead{font-size:18px}
+.finalcta .cta,.finalcta .ghostbtn{display:inline-flex;margin:0 6px 10px;padding:19px 40px;width:auto;font-size:18px}
+.foot{padding:36px var(--g);font-size:14px}
+}
+@media (min-width:1500px){.hero h1{font-size:84px}}
 </style>
 </head>
 <body><div class="loader" id="lc-loader"><div class="markstage sm"><div class="ringwave"></div><div class="ringwave"></div><svg class="mark" viewBox="0 0 112 112"><rect x="12" y="12" width="88" height="88" rx="26" fill="#102A4C"/><path d="M42 34v30c0 9 5 13 15 13h17" fill="none" stroke="#f7f9fc" stroke-width="9" stroke-linecap="round"/><g class="bars"><path d="M60 35v15" stroke="#EEB797" stroke-width="7" stroke-linecap="round"/><path d="M73 41v17" stroke="#EEB797" stroke-width="7" stroke-linecap="round"/></g></svg></div></div>
@@ -341,4 +421,4 @@ if(j.success){var w=f.website.value;try{sessionStorage.setItem('lc_lead',f.email
 });
 </script>
 </body>
-</html>
+  </html>
