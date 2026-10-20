@@ -203,11 +203,11 @@ body{font-family:'Heebo',sans-serif;background:var(--paper);color:var(--ink);-we
 <section id="trial" class="trialwrap">
 <form class="signupf" id="trial-f">
 <h2>מתחילים 7 ימי ניסיון חינם</h2>
-<p class="sub">מכניסים את האתר. אנחנו קוראים אותו, מקימים את המזכירה שלכם ושולחים מספר בדיקה למייל.</p>
+<p class="sub">מכניסים את האתר. אנחנו קוראים אותו, ואז מדברים עם מזכירה חיה לדמו: עד 3 דקות, באנגלית.</p>
 <div class="field"><label>אתר העסק</label><input required type="text" name="website" placeholder="theclinic.co.il" class="input"></div>
 <div class="field"><label>מייל העבודה</label><input required type="email" name="email" placeholder="you@business.co.il" class="input"></div>
-<button class="cta" type="submit">קבלו מספר בדיקה</button>
-<p id="trial-msg">כרטיס שמור, לא מחייבים 7 ימים. בלי התקנות. נא לא להזין מידע רפואי.</p>
+<button class="cta" type="submit">התחילו דמו</button>
+<p id="trial-msg">בלי כרטיס אשראי כדי להתחיל. בלי התקנות. נא לא להזין מידע רפואי.</p>
 </form>
 </section>
 <section class="caps" id="capabilities">
@@ -241,7 +241,7 @@ body{font-family:'Heebo',sans-serif;background:var(--paper);color:var(--ink);-we
   <h2>שלושה צעדים.<br>אתם עושים את הראשון.</h2>
   <p class="lead">אין תוכנה להתקין ואין מרכזייה להחליף.</p>
   <div class="step"><span class="n">1</span><div><b>כותבים את האתר</b><span>אנחנו קוראים מהאתר הציבורי שירותים, שעות, מיקומים ומדיניות.</span></div></div>
-  <div class="step"><span class="n">2</span><div><b>מתקשרים למספר הבדיקה</b><span>זה מצלצל לפקידה שלכם. שאלו אותה מה שהלקוחות שואלים.</span></div></div>
+  <div class="step"><span class="n">2</span><div><b>מנסים את הדמו</b><span>פותחים את הקישור ומדברים עם הפקידה שלכם. שאלו אותה מה שהלקוחות שואלים.</span></div></div>
   <div class="step"><span class="n">3</span><div><b>מעבירים את השיחות</b><span>מרוצים? מפנים שיחות תפוסות או מחוץ לשעות ללוקאלה.</span></div></div>
   <div class="memnote"><b>זיכרון אחד, בכל ערוץ <span class="soonchip">בקרוב</span></b>לקוח יכול להתחיל בשיחה ולהמשיך בוואטסאפ - לוקאלה זוכרת את כל השיחה, בכל ערוץ. זיכרון לקוח משותף בין שיחות פעיל היום. וואטסאפ בקרוב.</div>
 </section>
@@ -253,8 +253,8 @@ body{font-family:'Heebo',sans-serif;background:var(--paper);color:var(--ink);-we
   <div class="planrow hot"><span class="plan">סטארטר</span><span class="mins">250 דקות</span><span class="rc-pop">הנפוץ</span><span class="price">$159</span></div>
   <div class="planrow"><span class="plan">פרקטיס</span><span class="mins">550 דקות</span><span class="price">$359</span></div>
   <div class="planrow"><span class="plan">דקה נוספת</span><span class="price">$1</span></div>
-  <div class="trialrow"><span>7 ימי ניסיון עם כרטיס</span><span class="price">$0</span></div>
-  <div class="pnote">לא מחייבים עד סוף הניסיון · hello@lucalla.com</div>
+  <div class="trialrow"><span>7 ימי ניסיון חינם, בלי כרטיס</span><span class="price">$0</span></div>
+  <div class="pnote">אין מה לשלם כדי להתחיל · <a href="mailto:hello@lucalla.com">hello@lucalla.com</a></div>
 </section>
 <section class="faq" id="faq">
   <div class="sec-kicker">שאלות</div>
@@ -320,13 +320,13 @@ document.getElementById('trial-f').addEventListener('submit',async function(e){
 e.preventDefault();
 var f=e.target,msg=document.getElementById('trial-msg');
 var d={access_key:'2407ed30-f8c9-45f0-bf0e-2a5b3aa9d3f3',subject:'New Lucalla trial request',website:f.website.value,email:f.email.value};
-msg.textContent='Setting up your receptionist...';
+msg.textContent='שולחים...';
 try{
 var r=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(d)});
 var j=await r.json();
-msg.textContent=j.success?'Done - check your email for the test number.':'Something went wrong - email hello@lucalla.com and we will set you up.';
-if(j.success)f.reset();
-}catch(err){msg.textContent='Network error - email hello@lucalla.com and we will set you up.';}
+msg.textContent=j.success?'מעולה - פותחים את הדמו...':'משהו השתבש - כתבו ל-hello@lucalla.com ונקים לכם.';
+if(j.success){var w=f.website.value;f.reset();setTimeout(function(){location.href='/demo/?site='+encodeURIComponent(w)},900);}
+}catch(err){msg.textContent='שגיאת רשת - כתבו ל-hello@lucalla.com ונקים לכם.';}
 });
 </script>
 </body>
