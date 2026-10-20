@@ -76,6 +76,7 @@ body{font-family:'Heebo',sans-serif;background:var(--paper);color:var(--navy);-w
 </section>
 <section class="demobox">
   <input class="input" id="site" placeholder="yourpractice.com" autocomplete="url" inputmode="url">
+  <input class="input" id="lead" type="email" placeholder="you@yourpractice.com" autocomplete="email" inputmode="email" required>
   <button class="cta" id="go"><span class="play"><svg width="13" height="13" viewBox="0 0 24 24" fill="#102A4C"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>Start the demo call</button>
   <button id="end" type="button" hidden>End demo</button>
 </section>
@@ -117,6 +118,7 @@ document.addEventListener('click',function(e){
 <script>
 const PRE=(new URLSearchParams(location.search).get("site")||"").trim().toLowerCase().replace(/^https?:\/\//,"").replace(/[^a-z0-9.\-\/_]/g,"").slice(0,80);
 if(PRE){ document.addEventListener("DOMContentLoaded",()=>{ const i=document.getElementById("site"); if(i&&!i.value) i.value=PRE; }); }
+document.addEventListener("DOMContentLoaded",()=>{ const l=sessionStorage.getItem("lc_lead"); if(l&&$("lead")) $("lead").value=l; });
 const TX = new URLSearchParams(location.search).get("transcript")==="1";
 if(TX){ document.addEventListener("DOMContentLoaded",()=>{ document.getElementById("txbox").hidden=false; document.getElementById("txcopy").onclick=()=>{ const t=document.getElementById("tx").textContent; (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{document.getElementById("txcopy").textContent="Copied"},()=>{const r=document.createRange();r.selectNodeContents(document.getElementById("tx"));const sel=getSelection();sel.removeAllRanges();sel.addRange(r);}); }; }); }
 
@@ -146,6 +148,10 @@ function flush(){ srcs.forEach(s=>{try{s.stop()}catch{}}); srcs=[]; nextT = ctx 
 $("end").onclick = () => { cancelled = true; stop("Demo ended."); };
 $("go").onclick = async () => {
   let url = $("site").value.trim(); const mine = new URLSearchParams(location.search).get("mine")&&localStorage.getItem("lc_s"); if(!url && mine){ try{ const m = await (await fetch("https://account.lucalla.com/me",{headers:{Authorization:"Bearer "+localStorage.getItem("lc_s")}})).json(); url = (m.settings&&m.settings.website)||""; }catch(e){} } if(!url){ say("Enter your website first."); return; }
+  if(!mine){ const em=($("lead").value||"").trim(); if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ say("Enter your work email to start the demo."); $("lead").focus(); return; }
+    if(sessionStorage.getItem("lc_lead")!==em){ $("go").disabled=true; say("Saving your details...");
+      try{ const rr=await fetch("https://api.web3forms.com/submit",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({access_key:"2407ed30-f8c9-45f0-bf0e-2a5b3aa9d3f3",subject:"Lucalla demo started",website:url,email:em})}); const jj=await rr.json(); if(!jj.success) throw 0; sessionStorage.setItem("lc_lead",em); }
+      catch(e){ $("go").disabled=false; say("Could not save your email. Please try again."); return; } } }
   cancelled = false; $("go").disabled = true; $("end").hidden = false; say("Reading your website..."); setBar(0.02,"Starting");
   let r, diag = [];
   for(const b of BASES){
