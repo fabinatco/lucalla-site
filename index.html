@@ -204,11 +204,11 @@ body{font-family:'Heebo',sans-serif;background:var(--paper);color:var(--ink);-we
 <section id="trial" class="trialwrap">
 <form class="signupf" id="trial-f">
 <h2>Start your 7-day free trial</h2>
-<p class="sub">Enter your website. We read it, set up your receptionist and email you a test number to call.</p>
+<p class="sub">Enter your website. We read it, then you talk to a live demo receptionist: up to 3 minutes, in English.</p>
 <div class="field"><label>Business website</label><input required type="text" name="website" placeholder="yourpractice.com" class="input"></div>
 <div class="field"><label>Work email</label><input required type="email" name="email" placeholder="you@yourpractice.com" class="input"></div>
-<button class="cta" type="submit">Get my test number</button>
-<p id="trial-msg">Card on file, nothing charged for 7 days. No software to install. Please do not enter patient information.</p>
+<button class="cta" type="submit">Start my demo</button>
+<p id="trial-msg">No card needed to start. No software to install. Please do not enter patient information.</p>
 </form>
 </section>
 <section class="caps" id="capabilities">
@@ -242,7 +242,7 @@ body{font-family:'Heebo',sans-serif;background:var(--paper);color:var(--ink);-we
   <h2>Three steps.<br>You do the first one.</h2>
   <p class="lead">No software to install and no phone system to replace.</p>
   <div class="step"><span class="n">1</span><div><b>Enter your website</b><span>We read your public site for services, hours, locations and policies.</span></div></div>
-  <div class="step"><span class="n">2</span><div><b>Call your test number</b><span>It rings your Lucalla receptionist. Ask it what your customers ask.</span></div></div>
+  <div class="step"><span class="n">2</span><div><b>Try your demo</b><span>Open your link and talk to your Lucalla receptionist. Ask it what your customers ask.</span></div></div>
   <div class="step"><span class="n">3</span><div><b>Forward your calls</b><span>Happy with it? Forward busy or after-hours calls to Lucalla.</span></div></div>
   <div class="memnote"><b>One memory, every channel <span class="soonchip">Coming soon</span></b>A customer can start on a call and continue on WhatsApp - Lucalla remembers the whole conversation, whichever channel they use. Shared customer memory across calls is live today. WhatsApp is coming soon.</div>
 </section>
@@ -254,8 +254,8 @@ body{font-family:'Heebo',sans-serif;background:var(--paper);color:var(--ink);-we
   <div class="planrow hot"><span class="plan">Starter</span><span class="mins">250 minutes</span><span class="rc-pop">Popular</span><span class="price">$159</span></div>
   <div class="planrow"><span class="plan">Practice</span><span class="mins">550 minutes</span><span class="price">$359</span></div>
   <div class="planrow"><span class="plan">Extra minute</span><span class="price">$1</span></div>
-  <div class="trialrow"><span>7-day trial with a card</span><span class="price">$0</span></div>
-  <div class="pnote">No charge until the trial ends · hello@lucalla.com</div>
+  <div class="trialrow"><span>7-day free trial, no card</span><span class="price">$0</span></div>
+  <div class="pnote">Nothing to pay to start · <a href="mailto:hello@lucalla.com">hello@lucalla.com</a></div>
 </section>
 <section class="faq" id="faq">
   <div class="sec-kicker">FAQ</div>
@@ -321,14 +321,14 @@ document.getElementById('trial-f').addEventListener('submit',async function(e){
 e.preventDefault();
 var f=e.target,msg=document.getElementById('trial-msg');
 var d={access_key:'2407ed30-f8c9-45f0-bf0e-2a5b3aa9d3f3',subject:'New Lucalla trial request',website:f.website.value,email:f.email.value};
-msg.textContent='Setting up your receptionist...';
+msg.textContent='Sending...';
 try{
 var r=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(d)});
 var j=await r.json();
-msg.textContent=j.success?'Done - check your email for the test number.':'Something went wrong - email hello@lucalla.com and we will set you up.';
-if(j.success)f.reset();
+msg.textContent=j.success?'Done - opening your demo...':'Something went wrong - email hello@lucalla.com and we will set you up.';
+if(j.success){var w=f.website.value;f.reset();setTimeout(function(){location.href='/demo/?site='+encodeURIComponent(w)},900);}
 }catch(err){msg.textContent='Network error - email hello@lucalla.com and we will set you up.';}
 });
 </script>
 </body>
-                                                    </html>
+</html>
