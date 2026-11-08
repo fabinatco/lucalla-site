@@ -297,6 +297,8 @@ body{font-family:'Heebo',sans-serif;background:var(--paper);color:var(--ink);-we
 <p class="sub">Enter your website. We read it, then you talk to a live demo receptionist: up to 3 minutes, in English.</p>
 <div class="field"><label>Business website</label><input required type="text" name="website" placeholder="yourpractice.com" class="input"></div>
 <div class="field"><label>Work email</label><input required type="email" name="email" placeholder="you@yourpractice.com" class="input"></div>
+<input type="checkbox" name="botcheck" class="hp-check" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+<div class="h-captcha" data-captcha="true" style="margin:12px 0"></div>
 <button class="cta" type="submit">Start my demo</button>
 <p id="trial-msg">The 7-day trial takes a card and charges nothing until it ends. The demo itself is free. No software to install. Please do not enter patient information.</p>
 </form>
@@ -410,7 +412,8 @@ document.addEventListener('click',function(e){
 document.getElementById('trial-f').addEventListener('submit',async function(e){
 e.preventDefault();
 var f=e.target,msg=document.getElementById('trial-msg');
-var d={access_key:'2407ed30-f8c9-45f0-bf0e-2a5b3aa9d3f3',subject:'New Lucalla trial request',website:f.website.value,email:f.email.value};
+var d={access_key:'2407ed30-f8c9-45f0-bf0e-2a5b3aa9d3f3',subject:'New Lucalla trial request',website:f.website.value,email:f.email.value},botcheck:f.botcheck.checked,'h-captcha-response':(f.querySelector('textarea[name=h-captcha-response]')||{value:''}).value};
+if(!d['h-captcha-response']){msg.textContent='Please check the captcha box first.';return;}
 msg.textContent='Sending...';
 try{
 var r=await fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(d)});
@@ -420,5 +423,6 @@ if(j.success){var w=f.website.value;try{sessionStorage.setItem('lc_lead',f.email
 }catch(err){msg.textContent='Network error - email hello@lucalla.com and we will set you up.';}
 });
 </script>
+<script src="https://web3forms.com/client/script.js" async defer></script>
 </body>
 </html>
