@@ -412,7 +412,7 @@ document.addEventListener('click',function(e){
 document.getElementById('trial-f').addEventListener('submit',async function(e){
 e.preventDefault();
 var f=e.target,msg=document.getElementById('trial-msg');
-var d={access_key:'2407ed30-f8c9-45f0-bf0e-2a5b3aa9d3f3',subject:'New Lucalla trial request',website:f.website.value,email:f.email.value},botcheck:f.botcheck.checked,'h-captcha-response':(f.querySelector('textarea[name=h-captcha-response]')||{value:''}).value};
+var d={access_key:'2407ed30-f8c9-45f0-bf0e-2a5b3aa9d3f3',subject:'New Lucalla trial request',website:f.website.value,email:f.email.value,botcheck:f.botcheck.checked,'h-captcha-response':(f.querySelector('textarea[name=h-captcha-response]')||{value:''}).value};
 if(!d['h-captcha-response']){msg.textContent='Please check the captcha box first.';return;}
 msg.textContent='Sending...';
 try{
